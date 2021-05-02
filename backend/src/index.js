@@ -5,12 +5,14 @@ const app = express();
 
 app.use(express.json());
 
-const userRouter = require('./routers/user');;
+const userRouter = require('./routers/user');
+const noticiaRouter = require('./routers/noticia');
 
 app.use(userRouter);
+app.use(noticiaRouter);
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to fakenews application." });
 });
 
 console.log("oi")
