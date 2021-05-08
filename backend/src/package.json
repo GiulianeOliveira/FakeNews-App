@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "init-sql": "mysql -u root -p < ./database/db.sql",
+    "delete-sql": "mysql -u root -p < ./database/delete-db.sql",
     "server": "nodemon ./index.js"
   },
   "author": "",
