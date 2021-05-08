@@ -6,6 +6,7 @@
   "scripts": {
     "init-sql": "mysql -u root -p < ./database/db.sql",
     "delete-sql": "mysql -u root -p < ./database/delete-db.sql",
+    "ngrok": "ngrok http 3000",
     "server": "nodemon ./index.js"
   },
   "author": "",

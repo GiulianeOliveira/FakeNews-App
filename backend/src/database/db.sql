@@ -20,7 +20,7 @@ CREATE TABLE USUARIO (
     senha TEXT NOT NULL,
     email VARCHAR(256) NOT NULL UNIQUE,
     tipo ENUM('normal', 'admin') DEFAULT 'normal',
-    especialista  BIT DEFAULT 0,
+    especialista  BIT NOT NULL,
     PRIMARY KEY (`login`)
 );
 
@@ -71,7 +71,7 @@ CREATE TABLE COMENTARIO (
 CREATE TABLE AVALIA_ESPECIALISTA_NOTICIA (
     login VARCHAR(50) NOT NULL REFERENCES `USUARIO` (`login`),
     noticia_id INT NOT NULL REFERENCES `NOTICIA` (`noticia_id`),
-    status ENUM('em_espera', 'aprovado', 'reprovado') DEFAULT "em_espera",
+    avaliacao ENUM('fato', 'fake') DEFAULT "fake",
     PRIMARY KEY (`login`, `noticia_id`)
 );
 

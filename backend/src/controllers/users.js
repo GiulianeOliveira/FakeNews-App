@@ -11,10 +11,9 @@ module.exports = {
         res.send(nome)
         
     },
-    async buscaPorId(req, res) {
-        const { id } = req.params;
-    
-        User.buscarUsuarioId(id, (err, data) => { 
+    async buscaPorLogin(req, res) {
+        const { login } = req.params;
+        User.buscarUsuarioLogin(login, (err, data) => { 
             if (err) {
             res.status(500).send({
                 message:
@@ -26,9 +25,9 @@ module.exports = {
     },
 
     async alterarPerfil (req, res){
-        const {id, nome, login, email } = req.body;
+        const {nome, login, email } = req.body;
     
-        User.alterarPerfilUsuario(id, nome, login, email, (err, data) => { 
+        User.alterarPerfilUsuario(nome, login, email, (err, data) => { 
             if (err) {
             res.status(500).send({
                 message:
@@ -56,8 +55,8 @@ module.exports = {
         });
     },
     async promote(req,res){
-        const { id, tipo } = req.body;
-        User.promoverUsuario(id, tipo, (err, data) => {
+        const { login } = req.body;
+        User.promoverUsuario(login, (err, data) => {
             if (err) {
                 res.status(500).send({
                     message:

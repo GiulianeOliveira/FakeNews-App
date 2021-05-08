@@ -12,18 +12,18 @@ module.exports = class Usuario {
     }
 
     criarUsuario(){
-        sql.query("INSERT INTO USUARIO (NOME, LOGIN, SENHA, EMAIL) VALUES (?,?,?,?)", 
-        [this.nome, this.login, this.senha, this.email], (err, res) => {
+        sql.query("INSERT INTO USUARIO (nome, login, senha, email, especialista) VALUES (?,?,?,?,?)", 
+        [this.nome, this.login, this.senha, this.email, 0], (err, res) => {
             if(err) {
                 console.log("error: ", err);
                 return;
             }
         })
-        return {menssage: "Done"};
+        return {message: "Done"};
     }
 
-    static buscarUsuarioId(usuarioID, callback){
-        sql.query(`SELECT * FROM USUARIO WHERE USUARIO_ID = ${ usuarioID }`, (err, res) => {
+    static buscarUsuarioLogin(login, callback){
+        sql.query(`SELECT * FROM USUARIO WHERE login = '${ login }'`, (err, res) => {
             if(err) {
                 console.log("error: ", err);
                 callback(err, null);
@@ -33,24 +33,24 @@ module.exports = class Usuario {
             if(res.length){
                 // console.log("Found user: ", res[0]);
                 const obj =  {
-                    id: res[0].USUARIO_ID,
-                    nome: res[0].NOME,
-                    login: res[0].LOGIN,
-                    senha: res[0].SENHA,
-                    email: res[0].EMAIL,
-                    tipo: res[0].TIPO
+                    nome: res[0].nome,
+                    login: res[0].login,
+                    senha: res[0].senha,
+                    email: res[0].email,
+                    tipo: res[0].tipo,
+                    especialista: res[0].especialista
                 };
                 callback(null, obj);
                 console.log(res);
                 return;
             }
 
-            callback({kind: "not_found"}, null);
+            callback({message: "Usuario não encontrado"}, null);
         });
     }
 
     static buscarLoginESenha(login, senha, callback){
-        sql.query(`SELECT * FROM USUARIO WHERE LOGIN = '${login}' AND SENHA = '${senha}'`, (err, res) => {
+        sql.query(`SELECT * FROM USUARIO WHERE login = '${login}' AND senha = '${senha}'`, (err, res) => {
             if(err){
                 console.log("error: ", err);
                 callback(err, {
@@ -62,35 +62,43 @@ module.exports = class Usuario {
             if(res.length){
                 
                 callback(null, {
-                    status: true,
-                    id: res[0].USUARIO_ID
+                    status: true
                 });
                 console.log(res[0]);
                 return;
             }
 
-            callback({kind: "not_found"}, {
-                status: false
-            });
+            callback(
+                {message: "Usuario não encontrado"}, 
+                {status: false}
+            );
         });
     }
 
-    static alterarPerfilUsuario (usuarioId, nome, login, email, callback){
-        sql.query(`UPDATE USUARIO SET NOME = '${nome}', LOGIN = '${login}', EMAIL = '${email}' WHERE USUARIO_ID = '${usuarioId}'`,
+    static alterarPerfilUsuario (nome, login, email, callback){
+        // caso queira alterar o login, a funcao nao funciona
+        sql.query(`UPDATE USUARIO SET nome = '${nome}', email = '${email}' WHERE login = '${login}'`,
         (err, res) => {
             if(err){
                 console.log("error: ", err);
                 callback(err, null);
                 return;
             }
-            callback(null, {
-                status: true
-            })
+            if (res){
+                callback(null, {
+                    status: true
+                })
+                return;
+            }
+            callback(
+                {message: "Usuario inexistente"}, 
+                {status: false}
+            )
         });
     }
 
-    static promoverUsuario(usuarioID, tipo, callback){
-        sql.query(`UPDATE USUARIO SET TIPO = '${tipo}' WHERE USUARIO_ID = '${usuarioID}'`,
+    static promoverUsuario(login, callback){
+        sql.query(`UPDATE USUARIO SET especialista = 1 WHERE login = '${login}'`,
         (err, res) => {
             if(err) {
                 console.log("error: ", err);
@@ -99,9 +107,16 @@ module.exports = class Usuario {
                 })
                 return;
             }
-        })
-        callback(null, {
-            status: true
+            if (res) {
+                callback(null, {
+                    status: true}
+                )
+                return;
+            }
+            callback(
+                {message: "Erro ao promover usuário"}, 
+                {status: false}
+            )
         })
     }
 }
