@@ -37,5 +37,18 @@ module.exports = {
                 res.send(data);
             } 
         });
+    },
+
+    async visualizarNoticias(req,res) {
+        Noticia.visualizarNoticia((err, data) => { 
+            if (err) {
+            res.status(500).send({
+                message:
+                err.message || "Algum erro ocorreu ao carregar as noticias"});
+            } else {
+                // muda a entrada do bd do usuário
+                res.send(data);
+            } 
+        });
     }
 }

@@ -7,6 +7,9 @@ const NoticiaController = require("../controllers/noticias.js");
 // criar noticia
 router.post('/crianoticia', NoticiaController.criarNoticia);
 
+// visualizar noticias
+router.get('/visualizarnoticia', NoticiaController.visualizarNoticias);
+
 // adiciona avaliacao positiva na noticia
 router.put('/positiva', NoticiaController.avaliacaoPositiva);
 

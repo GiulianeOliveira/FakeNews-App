@@ -1,3 +1,4 @@
+const noticias = require("../controllers/noticias");
 const sql = require("../database/connection");
 
 module.exports = class Noticia {
@@ -71,6 +72,45 @@ module.exports = class Noticia {
                 null
             )
         });
+    }
+
+    static visualizarNoticia(callback){
+        sql.query("SELECT * FROM NOTICIA", (err, res) => {
+            if (err){
+                callback(
+                    err,
+                    null
+                )
+                return;
+            }
+            if (res){
+                const noticias = res.map(noticia => {
+                    sql.query(`SELECT COUNT(avaliacao) FROM AVALIA_ESPECIALISTA_NOTICIA WHERE avaliacao = 'fato' AND noticia_id = ${noticia.noticia_id}`,
+                    (error, resp) => {
+                        if (error){
+                            callback(err, null)
+                        }
+                        if (resp){   
+                            callback(null, resp);
+                            return;
+                        }
+                        callback(null, null);  
+                    });
+                    
+                    return {...noticia, avaliacaoP: 10}
+                });
+                console.log(noticias)
+                callback(
+                    null,
+                    noticias
+                )
+                return;
+            }
+            callback(
+                {message: "Ocorreu um erro ao carregar as noticias"},
+                null
+            )
+        })
     }
 }
 
