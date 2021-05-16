@@ -1,18 +1,18 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { Button, Typography } from '@naveteam/saturn'
+import { useHistory } from 'react-router-dom'
+import { Button } from '@material-ui/core'
 import Row from '../Row'
+import { Logo } from '../../theme/styles'
+import FakeNewsLogo from '../../assets/images/FakeNewsLogo.png'
 
 const Navbar = () => {
   const history = useHistory()
   return (
     <Row mt='24px' mr='32px' ml='32px' mb='64px' justifyContent='space-between'>
-      <Link to='/home'>teste</Link>
+      <Logo src={FakeNewsLogo} height='70px' />
       <Row>
-        <Button variant='text' onClick={() => history.push('/sair')}>
-          <Typography fontWeight='bold' fontSize='14px'>
-            Sair
-          </Typography>
+        <Button color='primary' onClick={() => history.push('/sair')}>
+          Sair
         </Button>
       </Row>
     </Row>

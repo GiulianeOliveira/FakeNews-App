@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import propTypes from 'prop-types'
-import { Icon } from '@naveteam/saturn'
+import { Icon } from '@material-ui/core'
 import styled from 'styled-components'
 import Column from '../Column'
 
