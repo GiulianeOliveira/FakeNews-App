@@ -1,32 +1,37 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useHistory } from 'react-router-dom'
 import { TextField, Typography, Button, Checkbox, FormControlLabel } from '@material-ui/core'
+import axios from 'axios'
 import Wrapper from '../../components/Wrapper'
 import Row from '../../components/Row'
 import Navbar from '../../components/Navbar'
-// import axios from 'axios'
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const history = useHistory()
   const { register, handleSubmit, setValue } = useForm()
-  // const onSubmit = data => console.log(data)
-  const onSubmit = async data => {
-    // event.preventDefault()
-    console.log(data)
-    // const formattedData = { login: formData.userName, senha: formData.password }
-    // booleano que diz se fica na pag de login ou redireciona pra home
 
-    // await axios
-    //   .post('http://934043efa417.ngrok.io/signin', { login: formData.userName, senha: formData.password })
-    //   .then(res => {
-    //    if (res.status === 200) {
-    //     history.push('/login')
-    //  }
-    // console.log(res.data)
-    // })
-    // .catch(error => {
-    //  console.log(error)
-    // })
+  const onSubmit = async data => {
+    const completeName = `${data.firstName} ${data.lastName}`
+    console.log(data, completeName)
+
+    await axios
+      .post('http://2b2326f7730e.ngrok.io/user', {
+        nome: completeName,
+        login: data.userName,
+        senha: data.userPassword,
+        email: data.email
+      })
+      .then(res => {
+        if (res.status === 200) {
+          history.push('/login')
+        }
+        console.log(res.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
   return (
     <div>

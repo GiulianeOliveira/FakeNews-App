@@ -8,5 +8,6 @@
   "printWidth": 120,
   "arrowParens": "avoid",
   "bracketSpacing": true,
-  "jsxBracketSameLine": false
+  "jsxBracketSameLine": false,
+  "endOfLine": "auto"
 }

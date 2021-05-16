@@ -64,17 +64,13 @@ const useStyles = makeStyles(theme => ({
 export default function SignInSide() {
   const classes = useStyles()
   const history = useHistory()
-  // const [formData, setFormData] = useState({ userName: ' ', password: ' ' })
   const { register, handleSubmit, setValue } = useForm()
   const [showPassword, setShowPassword] = useState(false)
 
   const onSubmit = async data => {
-    // event.preventDefault()
-    // const formattedData = { login: formData.userName, senha: formData.password }
-    // booleano que diz se fica na pag de login ou redireciona pra home
     console.log(data)
     await axios
-      .post('http://934043efa417.ngrok.io/signin', { login: data.userName, senha: data.password })
+      .post('http://2b2326f7730e.ngrok.io/signin', { login: data.userName, senha: data.password })
       .then(res => {
         if (res.status === 200) {
           history.push('/home')

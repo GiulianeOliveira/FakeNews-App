@@ -1,34 +1,21 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { Typography, Button } from '@material-ui/core'
+// import { useHistory } from 'react-router-dom'
+// import { Button } from '@material-ui/core'
 import styled from 'styled-components'
 import Row from '../../components/Row'
 import Column from '../../components/Column'
 import Navbar from '../../components/Navbar'
-import Card from '../../components/Card'
 
 const Home = () => {
-  const history = useHistory()
+  // const history = useHistory()
   const [isOpenModal] = useState(true)
   return (
     <>
-      <Card>TESTE SDAHSUHDUASH</Card>
       <Navbar />
       <Column mt='64px'>
         {isOpenModal && <ChangeBackground />}
         <Row alignItems='center' justifyContent='space-between'>
-          <Typography
-            fontWeight='600px'
-            fontSize='40px'
-            lineHeight='48px'
-            ml='32px'
-            variant='h4'
-            color='black'
-            align='center'
-          >
-            Teste
-          </Typography>
-          <Button
+          {/* <Button
             variant='contained'
             color='primary'
             width='176px'
@@ -37,7 +24,7 @@ const Home = () => {
             onClick={() => history.push('cadastro')}
           >
             Adicionar Usuario
-          </Button>
+          </Button> */}
         </Row>
       </Column>
     </>
