@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import Button from '@material-ui/core/Button'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import TextField from '@material-ui/core/TextField'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Link from '@material-ui/core/Link'
-import Paper from '@material-ui/core/Paper'
-import Box from '@material-ui/core/Box'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
+import { useForm } from 'react-hook-form'
+import {
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  makeStyles
+} from '@material-ui/core/'
 import axios from 'axios'
 import { Logo } from '../../theme/styles'
 import FakeNewsLogo from '../../assets/images/FakeNewsLogo.png'
@@ -19,8 +22,8 @@ function Copyright() {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
       {'Copyright © '}
-      <Link color='inherit' href='https://material-ui.com/'>
-        Your Website
+      <Link color='inherit' href='https://github.com/GiulianeOliveira/FakeNews-App'>
+        Desenvolvimento de Softwares UFPel
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -61,15 +64,17 @@ const useStyles = makeStyles(theme => ({
 export default function SignInSide() {
   const classes = useStyles()
   const history = useHistory()
-  const [formData, setFormData] = useState({ userName: ' ', password: ' ' })
+  // const [formData, setFormData] = useState({ userName: ' ', password: ' ' })
+  const { register, handleSubmit, setValue } = useForm()
+  const [showPassword, setShowPassword] = useState(false)
 
-  const handleSubmit = async event => {
-    event.preventDefault()
+  const onSubmit = async data => {
+    // event.preventDefault()
     // const formattedData = { login: formData.userName, senha: formData.password }
     // booleano que diz se fica na pag de login ou redireciona pra home
-
+    console.log(data)
     await axios
-      .post('http://934043efa417.ngrok.io/signin', { login: formData.userName, senha: formData.password })
+      .post('http://934043efa417.ngrok.io/signin', { login: data.userName, senha: data.password })
       .then(res => {
         if (res.status === 200) {
           history.push('/home')
@@ -81,14 +86,6 @@ export default function SignInSide() {
       })
   }
 
-  const handleInputUserName = event => {
-    setFormData({ ...formData, userName: event.target.value })
-  }
-
-  const handleInputPassword = event => {
-    setFormData({ ...formData, password: event.target.value })
-  }
-
   return (
     <Grid container component='main' className={classes.root}>
       <CssBaseline />
@@ -97,7 +94,7 @@ export default function SignInSide() {
         <div className={classes.paper}>
           <Logo src={FakeNewsLogo} height='150px' />
 
-          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
             <TextField
               variant='outlined'
               margin='normal'
@@ -106,7 +103,8 @@ export default function SignInSide() {
               label='Nome de usuário'
               name='userName'
               autoFocus
-              onChange={handleInputUserName}
+              {...register('userName')}
+              onChange={e => setValue('userName', e.target.value)}
             />
             <TextField
               variant='outlined'
@@ -115,12 +113,16 @@ export default function SignInSide() {
               fullWidth
               name='password'
               label='Senha'
-              type='password'
+              type={showPassword ? 'text' : 'password'}
               id='password'
               autoComplete='current-password'
-              onChange={handleInputPassword}
+              {...register('password')}
+              onChange={e => setValue('password', e.target.value)}
             />
-            <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Mostrar senha' />
+            <FormControlLabel
+              control={<Checkbox value='remember' color='primary' onClick={() => setShowPassword(!showPassword)} />}
+              label='Mostrar senha'
+            />
             <Button type='submit' fullWidth variant='contained' color='primary' className={classes.submit}>
               Entrar
             </Button>

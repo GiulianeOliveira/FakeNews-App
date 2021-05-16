@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { TextField, Typography, Button } from '@material-ui/core'
+import { TextField, Typography, Button, Checkbox, FormControlLabel } from '@material-ui/core'
 import Wrapper from '../../components/Wrapper'
 import Row from '../../components/Row'
 import Navbar from '../../components/Navbar'
@@ -115,11 +115,14 @@ const Register = () => {
             width='280px'
             height='40px'
           />
-          <Button size='small' onClick={() => setShowPassword(!showPassword)}>
-            Mostar senha
-          </Button>
         </Row>
-        <Row flexDirection='row-reverse' mt='40px'>
+        <Row flexDirection='row-reverse'>
+          <FormControlLabel
+            label='Mostrar senha'
+            control={<Checkbox value='remember' color='primary' onClick={() => setShowPassword(!showPassword)} />}
+          />
+        </Row>
+        <Row flexDirection='row-reverse' mt='20px'>
           <Button type='submit' fullWidth variant='contained' color='primary'>
             Cadastrar
           </Button>
