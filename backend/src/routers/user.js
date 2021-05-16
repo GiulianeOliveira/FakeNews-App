@@ -14,10 +14,13 @@ router.get('/user/:login', UserController.buscaPorLogin);
 router.patch('/user', UserController.alterarPerfil);
 
 // autentifica login
-router.get('/signin', UserController.login);
+router.post('/signin', UserController.login);
 
 // promover usuario
 router.put('/promote', UserController.promote)
+
+// deleta usuario
+router.delete('/delete/:login', UserController.deletarUsuario);
 
 
 module.exports = router;
