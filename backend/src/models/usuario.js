@@ -52,22 +52,26 @@ module.exports = class Usuario {
     static buscarLoginESenha(login, senha, callback){
         sql.query(`SELECT * FROM USUARIO WHERE login = '${login}' AND senha = '${senha}'`, (err, res) => {
             if(err){
-                console.log("error: ", err);
                 callback(err, {
                     status: false
                 });
                 return;
             }
-
-            if(res.length){
+            if(res){   
+                if (res[0] != undefined){
+                    callback(
+                        null, {
+                        status: true
+                    });
+                }else{
+                    callback(
+                        {message: "Usuario não encontrado"}, {
+                        status: false
+                    });
+                }
                 
-                callback(null, {
-                    status: true
-                });
-                console.log(res[0]);
                 return;
             }
-
             callback(
                 {message: "Usuario não encontrado"}, 
                 {status: false}
@@ -115,6 +119,30 @@ module.exports = class Usuario {
             }
             callback(
                 {message: "Erro ao promover usuário"}, 
+                {status: false}
+            )
+        })
+    }
+
+    static removerUsuario(login,callback){
+        sql.query(`DELETE FROM USUARIO WHERE login = '${login}'`,
+        (err,res) =>{
+            if(err) {
+                callback(
+                    err, 
+                    {status: false}
+                )
+                return;
+            }
+            if (res) {
+                callback(
+                    null, 
+                    {status: true}
+                )
+                return;
+            }
+            callback(
+                {message: "Erro ao deletar usuário"}, 
                 {status: false}
             )
         })

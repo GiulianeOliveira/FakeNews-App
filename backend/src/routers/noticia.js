@@ -16,4 +16,7 @@ router.put('/positiva', NoticiaController.avaliacaoPositiva);
 // adiciona avaliacao negativa na noticia
 router.put('/negativa', NoticiaController.avaliacaoNegativa);
 
+// deleta noticia
+router.delete('/delete/:noticiaid', NoticiaController.deletarNoticia);
+
 module.exports = router;

@@ -2,7 +2,7 @@ const noticias = require("../controllers/noticias");
 const sql = require("../database/connection");
 
 module.exports = class Noticia {
-    constructor(login, titulo, imagem, descricao){
+    constructor(login, titulo, imagem, descricao) {
         this.login = login;
         this.titulo = titulo;
         this.imagem = imagem;
@@ -13,29 +13,104 @@ module.exports = class Noticia {
         this.criaNoticia();
     }
 
-    criaNoticia(){
-        sql.query("INSERT INTO NOTICIA (login, titulo, imagem, descricao) VALUES (?,?,?,?)", 
-        [this.login, this.titulo, this.imagem, this.descricao], (err,res) => {
-        if(err) {
-            console.log("error: ", err);
-            return {err};
-        }
-        return {message: "Done"}
-        });
+    criaNoticia() {
+        sql.query("INSERT INTO NOTICIA (login, titulo, imagem, descricao) VALUES (?,?,?,?)",
+            [this.login, this.titulo, this.imagem, this.descricao], (err, res) => {
+                if (err) {
+                    console.log("error: ", err);
+                    return { err };
+                }
+                return { message: "Done" }
+            });
     }
 
-    static avaliacaoP(noticiaId, login, callback){
+    static avaliacaoP(noticiaId, login, callback) {
         sql.query(`INSERT INTO AVALIA_ESPECIALISTA_NOTICIA (login, noticia_id, avaliacao) VALUES (?,?,?)`,
-        [login, noticiaId, 'fato'], 
-        (err,res) => {
-            if (err){
+            [login, noticiaId, 'fato'],
+            (err, res) => {
+                if (err) {
+                    callback(
+                        err,
+                        null
+                    )
+                    return;
+                }
+                if (res) {
+                    callback(
+                        null,
+                        { status: true }
+                    )
+                    return;
+                }
+                callback(
+                    { message: "Ocorreu um erro ao avaliar a noticia positivamente" },
+                    null
+                )
+            });
+    }
+
+    static avaliacaoN(noticiaId, login, callback) {
+        sql.query(`INSERT INTO AVALIA_ESPECIALISTA_NOTICIA (login, noticia_id, avaliacao) VALUES (?,?,?)`,
+            [login, noticiaId, 'fake'],
+            (err, res) => {
+                if (err) {
+                    callback(
+                        err,
+                        null
+                    )
+                    return;
+                }
+                if (res) {
+                    callback(
+                        null,
+                        { status: true }
+                    )
+                    return;
+                }
+                callback(
+                    { message: "Ocorreu um erro ao avaliar a noticia negativamente" },
+                    null
+                )
+            });
+    }
+
+    static visualizarNoticia(callback) {
+        sql.query(`SELECT NOTICIA.*, COUNT(avaliacao) AS avaliacaoP FROM NOTICIA LEFT JOIN AVALIA_ESPECIALISTA_NOTICIA ON 
+                    AVALIA_ESPECIALISTA_NOTICIA.noticia_id = NOTICIA.noticia_id AND avaliacao = 'fato' 
+                    GROUP BY noticia_id;`, (err, res) => {
+            if (err) {
                 callback(
                     err,
                     null
                 )
                 return;
             }
-            if (res){
+            if (res) {
+                callback(
+                    null,
+                    res
+                )
+                return;
+            }
+            callback(
+                { message: "Ocorreu um erro ao carregar as noticias" },
+                null
+            )
+        })
+    }
+
+    static deletarNoticia(noticiaID, callback){
+        sql.query(`DELETE FROM NOTICIA WHERE noticia_id = ${noticiaID}`, 
+        (err, res) => {
+            if (err) {
+                callback(
+                    err,
+                    {status: false}
+                )
+                return;
+            }
+            if (res) {
+                console.log(res)
                 callback(
                     null,
                     {status: true}
@@ -43,72 +118,8 @@ module.exports = class Noticia {
                 return;
             }
             callback(
-                {message: "Ocorreu um erro ao avaliar a noticia positivamente"},
-                null
-            )
-        });  
-    }
-
-    static avaliacaoN(noticiaId, login, callback){
-        sql.query(`INSERT INTO AVALIA_ESPECIALISTA_NOTICIA (login, noticia_id, avaliacao) VALUES (?,?,?)`,
-        [login, noticiaId, 'fake'], 
-        (err,res) => {
-            if (err){
-                callback(
-                    err,
-                    null
-                )
-                return;
-            }
-            if (res){
-                callback(
-                    null,
-                    {status: true}
-                )
-                return;
-            }
-            callback(
-                {message: "Ocorreu um erro ao avaliar a noticia negativamente"},
-                null
-            )
-        });
-    }
-
-    static visualizarNoticia(callback){
-        sql.query("SELECT * FROM NOTICIA", (err, res) => {
-            if (err){
-                callback(
-                    err,
-                    null
-                )
-                return;
-            }
-            if (res){
-                const noticias = res.map(noticia => {
-                    sql.query(`SELECT COUNT(avaliacao) FROM AVALIA_ESPECIALISTA_NOTICIA WHERE avaliacao = 'fato' AND noticia_id = ${noticia.noticia_id}`,
-                    (error, resp) => {
-                        if (error){
-                            callback(err, null)
-                        }
-                        if (resp){   
-                            callback(null, resp);
-                            return;
-                        }
-                        callback(null, null);  
-                    });
-                    
-                    return {...noticia, avaliacaoP: 10}
-                });
-                console.log(noticias)
-                callback(
-                    null,
-                    noticias
-                )
-                return;
-            }
-            callback(
-                {message: "Ocorreu um erro ao carregar as noticias"},
-                null
+                { message: "Ocorreu um erro ao deletar a noticia" },
+                {status: false}
             )
         })
     }

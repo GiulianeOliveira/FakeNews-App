@@ -54,6 +54,7 @@ module.exports = {
             } 
         });
     },
+
     async promote(req,res){
         const { login } = req.body;
         User.promoverUsuario(login, (err, data) => {
@@ -65,7 +66,18 @@ module.exports = {
                     res.send(data);
                 } 
         })
+    },
 
-
+    async deletarUsuario(req,res) {
+        const {login} = req.params;
+        User.removerUsuario(login, (err, data) => { 
+            if (err) {
+                res.status(500).send({
+                message:
+                err.message || "Algum erro ocorreu ao deletar o usuario"});
+            } else {
+                res.send(data);
+            } 
+        });
     }
 }
