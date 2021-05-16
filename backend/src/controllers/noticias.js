@@ -1,3 +1,4 @@
+const { denunciarNoticia, comentarNoticia } = require("../models/noticia");
 const Noticia = require("../models/noticia");
 
 module.exports = {
@@ -63,6 +64,33 @@ module.exports = {
                 // muda a entrada do bd do usuário
                 res.send(data);
             } 
+        });
+    },
+
+    async denunciarNoticia(req, res) {
+        const {login, noticia_id} = req.query;
+        const {conteudo, data} = req.body;
+        Noticia.denunciarNoticia(login, noticia_id, data, conteudo, (err, resp) => {
+            if(err){
+                res.status(500).send({
+                    message: err.message || "Erro ao denunciar noticia"
+                })
+            }else {
+                res.send(resp)
+            }
+        });
+    },
+
+    async comentarNoticia(req,res) {
+        const {noticiaId, login, data, conteudo} = req.body;
+        Noticia.comentarNoticia(noticiaId, login, data, conteudo, (err, data) => {
+            if(err){
+                res.status(500).send({
+                    message: err.message || "Erro ao comentar noticia"
+                })
+            }else {
+                res.send(data)
+            }
         });
     }
 }

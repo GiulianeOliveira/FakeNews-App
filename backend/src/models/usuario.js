@@ -147,4 +147,57 @@ module.exports = class Usuario {
             )
         })
     }
+
+    static denunciarUsuario(denunciante,denunciado,data,conteudo, callback){
+        sql.query("INSERT INTO DENUNCIA_USUARIO (login_denunciante, login_denunciado, data, conteudo) VALUES (?,?,?,?)", 
+        [denunciante, denunciado, data, conteudo],  (err, res) => {
+            if(err){
+                callback(
+                    err, 
+                    {status: false}
+                )
+                return;
+            }
+            if (res) {
+                callback(
+                    null, 
+                    {status: true}
+                )
+                return;
+            }
+            callback(
+                {message: "Erro ao denunciar usuário"}, 
+                {status: false}
+            )
+        })
+        return {message: "Done"};
+    }
+
+    static solicitarPromocao(login, callback){
+        sql.query("INSERT INTO REQUISICAO_ESPECIALISTA (login) VALUES (?)", 
+        [login], (err, res) => {
+            if(err){
+                callback(
+                    err, 
+                    {status: false}
+                )
+                return;
+            }
+            if (res) {
+                callback(
+                    null, 
+                    {status: true}
+                )
+                return;
+            }
+            callback(
+                {message: "Erro ao pedir por promocao"}, 
+                {status: false}
+            )
+        })
+        return {message: "Done"};
+    }
+
+
+
 }

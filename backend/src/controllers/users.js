@@ -79,5 +79,36 @@ module.exports = {
                 res.send(data);
             } 
         });
+    }, 
+    
+    async denunciaUsuario(req, res) {
+        const { denunciante, denunciado, data, conteudo } = req.body;
+        // data format: AAAA-MM-DD	
+        User.denunciarUsuario(denunciante, denunciado, data, conteudo, (err, data) => { 
+            if (err) {
+                res.status(500).send({
+                message:
+                err.message || "Algum erro ocorreu ao denunciar o usuario"});
+            } else {
+                res.send(data);
+            } 
+        });
+        
+    },
+
+    async pedirPromocao(req, res){
+        const login = req.query.login;
+        
+        User.solicitarPromocao(login, (err, data) => {
+            if (err) {
+                res.status(500).send({
+                message:
+                err.message || "Algum erro ocorreu ao denunciar o usuario"});
+            } else {
+                res.send(data);
+            } 
+        })
     }
+    
+    
 }

@@ -81,6 +81,7 @@ CREATE TABLE REQUISICAO_ESPECIALISTA (
     PRIMARY KEY (`login`)
 );
 
+
 -- comandos que podem ser úteis:
 
 -- para ver os tipos de cada tabela e suas keys: 

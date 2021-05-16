@@ -75,9 +75,12 @@ module.exports = class Noticia {
     }
 
     static visualizarNoticia(callback) {
-        sql.query(`SELECT NOTICIA.*, COUNT(avaliacao) AS avaliacaoP FROM NOTICIA LEFT JOIN AVALIA_ESPECIALISTA_NOTICIA ON 
-                    AVALIA_ESPECIALISTA_NOTICIA.noticia_id = NOTICIA.noticia_id AND avaliacao = 'fato' 
-                    GROUP BY noticia_id;`, (err, res) => {
+        sql.query(`SELECT x.*, COUNT(avaliacao) AS avaliacaoN FROM 
+            (SELECT NOTICIA.*, COUNT(avaliacao) AS avaliacaoP FROM NOTICIA LEFT JOIN AVALIA_ESPECIALISTA_NOTICIA ON 
+            AVALIA_ESPECIALISTA_NOTICIA.noticia_id = NOTICIA.noticia_id AND avaliacao = 'fato' GROUP BY noticia_id)x 
+            LEFT JOIN AVALIA_ESPECIALISTA_NOTICIA ON AVALIA_ESPECIALISTA_NOTICIA.noticia_id = x.noticia_id AND avaliacao = 'fake' 
+            GROUP BY noticia_id;`, 
+        (err, res) => {
             if (err) {
                 callback(
                     err,
@@ -122,6 +125,70 @@ module.exports = class Noticia {
                 {status: false}
             )
         })
+    }
+
+    static denunciarNoticia(login, noticiaID, data, conteudo, callback){
+        sql.query(`INSERT INTO DENUNCIA_NOTICIA (login, noticia_id, data_denuncia, status_denuncia, conteudo) VALUES (?,?,?,?,?)`, 
+        [login, noticiaID, data, "em_espera", conteudo],
+        (err, res) => {
+            if(err){
+                callback(
+                    err,
+                    null
+                )
+                return;
+            }
+            if(res){
+                callback(
+                    null,
+                    {status: true}
+                )
+                return;
+            }
+            callback(
+                {message: "Erro ao denunciar noticia"},
+                {status: false}
+            )
+        });
+    }
+
+    static comentarNoticia(noticiaId, login, data, conteudo, callback){
+        sql.query(`SELECT COUNT(sequencia) AS sequencia FROM COMENTARIO WHERE noticia_id = ${noticiaId}`, 
+        (err, res) => {
+            if(err){
+                callback(
+                    err,
+                    null
+                )
+                return;
+            }
+            if(res){
+                sql.query(`INSERT INTO COMENTARIO (sequencia, noticia_id, login, data, conteudo) VALUES (?,?,?,?,?)`, 
+                [res[0].sequencia, noticiaId, login, data, conteudo],
+                (error, resp) => {
+                    if(error){
+                        callback(
+                            error,
+                            null
+                        )
+                        return;
+                    }
+                    if (resp){
+                        callback(
+                            null, 
+                            {status: true}
+                        )
+                        return;
+                    }
+                    callback(
+                        {message: "Erro ao comentar noticia"}, 
+                        {status: false}
+                    )
+                })
+                return
+            }
+            return;
+        });
     }
 }
 

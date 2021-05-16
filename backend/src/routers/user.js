@@ -22,5 +22,11 @@ router.put('/promote', UserController.promote)
 // deleta usuario
 router.delete('/delete/:login', UserController.deletarUsuario);
 
+// denuncia usuario
+router.post('/report', UserController.denunciaUsuario);
+
+// solicitar acesso especialista
+router.post('/askpromotion', UserController.pedirPromocao);
+// /askpromotion?login=user1Login
 
 module.exports = router;

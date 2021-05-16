@@ -19,4 +19,10 @@ router.put('/negativa', NoticiaController.avaliacaoNegativa);
 // deleta noticia
 router.delete('/delete/:noticiaid', NoticiaController.deletarNoticia);
 
+// denunciar noticia
+router.post('/denuncia', NoticiaController.denunciarNoticia);
+
+// comentar noticia
+router.post('/comentarnoticia',NoticiaController.comentarNoticia);
+
 module.exports = router;
