@@ -11,13 +11,10 @@ router.post('/crianoticia', NoticiaController.criarNoticia);
 router.get('/visualizarnoticia', NoticiaController.visualizarNoticias);
 
 // adiciona avaliacao positiva na noticia
-router.put('/positiva', NoticiaController.avaliacaoPositiva);
-
-// adiciona avaliacao negativa na noticia
-router.put('/negativa', NoticiaController.avaliacaoNegativa);
+router.put('/avaliar', NoticiaController.avaliacao);
 
 // deleta noticia
-router.delete('/delete/:noticiaid', NoticiaController.deletarNoticia);
+router.delete('/delete', NoticiaController.deletarNoticia);
 
 // denunciar noticia
 router.post('/denuncia', NoticiaController.denunciarNoticia);

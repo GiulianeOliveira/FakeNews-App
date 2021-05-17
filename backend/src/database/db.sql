@@ -15,10 +15,10 @@ SHOW TABLES;
 -- criar tabela usuário
 
 CREATE TABLE USUARIO (
-    login VARCHAR(50) NOT NULL UNIQUE,
+    login VARCHAR(50) BINARY NOT NULL,
     nome TEXT NOT NULL,
     senha TEXT NOT NULL,
-    email VARCHAR(256) NOT NULL UNIQUE,
+    email VARCHAR(256) BINARY NOT NULL UNIQUE,
     tipo ENUM('normal', 'admin') DEFAULT 'normal',
     especialista  BIT NOT NULL,
     PRIMARY KEY (`login`)
@@ -28,8 +28,8 @@ CREATE TABLE USUARIO (
 -- criar tabela denunciaUsuario
 
 CREATE TABLE DENUNCIA_USUARIO (
-    login_denunciante VARCHAR(50) NOT NULL REFERENCES `USUARIO`(`login`),
-    login_denunciado VARCHAR(50) NOT NULL REFERENCES `USUARIO`(`login`),
+    login_denunciante VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO`(`login`),
+    login_denunciado VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO`(`login`),
     data DATE NOT NULL,
     status ENUM('em_espera', 'aprovado', 'reprovado') DEFAULT "em_espera",
     conteudo TEXT NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE DENUNCIA_USUARIO (
 -- criar tabela notícia
 CREATE TABLE NOTICIA (
     noticia_id INT AUTO_INCREMENT,
-    login VARCHAR(50) NOT NULL REFERENCES `USUARIO` (`login`),
+    login VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO` (`login`),
     titulo TEXT NOT NULL,
     imagem TEXT,
     descricao TEXT,
@@ -49,7 +49,7 @@ CREATE TABLE NOTICIA (
 
 -- criar tabela denunciaNoticia
 CREATE TABLE DENUNCIA_NOTICIA (
-    login VARCHAR(50) NOT NULL REFERENCES `USUARIO` (`login`),
+    login VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO` (`login`),
     noticia_id INT NOT NULL REFERENCES `NOTICIA` (`noticia_id`),
     data_denuncia DATE NOT NULL,
     status_denuncia ENUM('em_espera', 'aprovado', 'reprovado') DEFAULT "em_espera",
@@ -61,7 +61,7 @@ CREATE TABLE DENUNCIA_NOTICIA (
 CREATE TABLE COMENTARIO (
     sequencia INT NOT NULL,
     noticia_id INT NOT NULL REFERENCES `NOTICIA` (`noticia_id`),
-    login VARCHAR(50) NOT NULL REFERENCES `USUARIO` (`login`),
+    login VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO` (`login`),
     data DATETIME NOT NULL,
     conteudo TEXT NOT NULL,
     PRIMARY KEY (`sequencia`,`noticia_id`,`login`)
@@ -69,14 +69,14 @@ CREATE TABLE COMENTARIO (
 
 
 CREATE TABLE AVALIA_ESPECIALISTA_NOTICIA (
-    login VARCHAR(50) NOT NULL REFERENCES `USUARIO` (`login`),
+    login VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO` (`login`),
     noticia_id INT NOT NULL REFERENCES `NOTICIA` (`noticia_id`),
     avaliacao ENUM('fato', 'fake') DEFAULT "fake",
     PRIMARY KEY (`login`, `noticia_id`)
 );
 
 CREATE TABLE REQUISICAO_ESPECIALISTA (
-    login VARCHAR(50) NOT NULL REFERENCES `USUARIO` (`login`),
+    login VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO` (`login`),
     status ENUM('em_espera', 'aprovado', 'reprovado') DEFAULT "em_espera",
     PRIMARY KEY (`login`)
 );

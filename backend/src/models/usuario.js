@@ -1,4 +1,5 @@
 const sql = require("../database/connection");
+const bcrypt = require('bcrypt');
 
 module.exports = class Usuario {
     constructor(nome, login, senha, email){
@@ -8,24 +9,34 @@ module.exports = class Usuario {
         this.email = email;
         this.tipo = "NORMAL";
 
-        this.criarUsuario();
+        return this;
     }
 
-    criarUsuario(){
+    criarUsuario(callback){
+        const senha_criptografada = bcrypt.hashSync(this.senha, 10);
         sql.query("INSERT INTO USUARIO (nome, login, senha, email, especialista) VALUES (?,?,?,?,?)", 
-        [this.nome, this.login, this.senha, this.email, 0], (err, res) => {
+        [this.nome, this.login, senha_criptografada, this.email, 0], (err, res) => {
             if(err) {
-                console.log("error: ", err);
+                callback(err, null);
                 return;
             }
-        })
-        return {message: "Done"};
+            if (res) {
+                callback(
+                    null, 
+                    {
+                    login: this.login,
+                    nome: this.nome
+                    }
+                );  
+                return;
+            }
+            callback({message: "Erro ao cadastrar usuario"}, null);
+        });
     }
 
     static buscarUsuarioLogin(login, callback){
-        sql.query(`SELECT * FROM USUARIO WHERE login = '${ login }'`, (err, res) => {
+        sql.query(`SELECT * FROM USUARIO WHERE login LIKE BINARY '${ login }'`, (err, res) => {
             if(err) {
-                console.log("error: ", err);
                 callback(err, null);
                 return;
             }
@@ -33,12 +44,11 @@ module.exports = class Usuario {
             if(res.length){
                 // console.log("Found user: ", res[0]);
                 const obj =  {
-                    nome: res[0].nome,
                     login: res[0].login,
-                    senha: res[0].senha,
+                    nome: res[0].nome,
                     email: res[0].email,
                     tipo: res[0].tipo,
-                    especialista: res[0].especialista
+                    especialista: res[0].especialista[0] ? true : false
                 };
                 callback(null, obj);
                 console.log(res);
@@ -50,7 +60,9 @@ module.exports = class Usuario {
     }
 
     static buscarLoginESenha(login, senha, callback){
-        sql.query(`SELECT * FROM USUARIO WHERE login = '${login}' AND senha = '${senha}'`, (err, res) => {
+        //const senha_criptografada = bcrypt.hashSync(senha, 10);
+        //console.log(senha_criptografada)
+        sql.query(`SELECT * FROM USUARIO WHERE login LIKE BINARY '${login}'`, (err, res) => {
             if(err){
                 callback(err, {
                     status: false
@@ -59,10 +71,25 @@ module.exports = class Usuario {
             }
             if(res){   
                 if (res[0] != undefined){
-                    callback(
-                        null, {
-                        status: true
-                    });
+                   if (bcrypt.compareSync(senha, res[0].senha)){
+                        callback(
+                            null, 
+                            {
+                            status: true,
+                            login: res[0].login,
+                            nome: res[0].nome,
+                            email: res[0].email,
+                            tipo: res[0].tipo,
+                            especialista: res[0].especialista[0] ? true : false
+                            }
+                        );
+                    }else{
+                        callback(
+                            {message: "Senha incorreta"}, {
+                            status: false
+                        });
+                    }
+                    
                 }else{
                     callback(
                         {message: "Usuario não encontrado"}, {
@@ -81,7 +108,7 @@ module.exports = class Usuario {
 
     static alterarPerfilUsuario (nome, login, email, callback){
         // caso queira alterar o login, a funcao nao funciona
-        sql.query(`UPDATE USUARIO SET nome = '${nome}', email = '${email}' WHERE login = '${login}'`,
+        sql.query(`UPDATE USUARIO SET nome = '${nome}', email = '${email}' WHERE login LIKE BINARY '${login}'`,
         (err, res) => {
             if(err){
                 console.log("error: ", err);
@@ -102,7 +129,7 @@ module.exports = class Usuario {
     }
 
     static promoverUsuario(login, callback){
-        sql.query(`UPDATE USUARIO SET especialista = 1 WHERE login = '${login}'`,
+        sql.query(`UPDATE USUARIO SET especialista = 1 WHERE login LIKE BINARY '${login}'`,
         (err, res) => {
             if(err) {
                 console.log("error: ", err);
@@ -125,7 +152,7 @@ module.exports = class Usuario {
     }
 
     static removerUsuario(login,callback){
-        sql.query(`DELETE FROM USUARIO WHERE login = '${login}'`,
+        sql.query(`DELETE FROM USUARIO WHERE login LIKE BINARY '${login}'`,
         (err,res) =>{
             if(err) {
                 callback(

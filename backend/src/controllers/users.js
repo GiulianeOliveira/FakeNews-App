@@ -5,12 +5,19 @@ module.exports = {
     async criarUsuario(req, res) {
         const { nome, login, senha, email } = req.body;
         // console.log(nome, "conhecido como: ", login, " que usa o e-mail: ", email);
-        const usuario = new User(nome, login, senha, email)
+        const usuario = new User(nome, login, senha, email);
         
-        // procura bd por e-mail, para garantir unicidade
-        res.send(nome)
-        
+        usuario.criarUsuario((err, data) => {
+            if (err) {
+                res.status(500).send({
+                message:
+                err.message || "Algum erro ocorreu ao cadastrar o Usuário"});
+            } else {
+                res.send(data);
+            } 
+        });
     },
+
     async buscaPorLogin(req, res) {
         const { login } = req.params;
         User.buscarUsuarioLogin(login, (err, data) => { 
