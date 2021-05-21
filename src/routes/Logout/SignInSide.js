@@ -76,6 +76,7 @@ export default function SignInSide() {
           history.push('/home')
         }
         console.log(res.data)
+        // Recebo o status, login, especialista, nome, tipo e email
       })
       .catch(error => {
         console.log(error)
