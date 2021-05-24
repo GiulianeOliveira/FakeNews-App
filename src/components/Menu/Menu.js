@@ -6,6 +6,11 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import PostAddIcon from '@material-ui/icons/PostAdd'
+import AccountBoxIcon from '@material-ui/icons/AccountBox'
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
+import WarningIcon from '@material-ui/icons/Warning'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import Row from '../Row'
 
 const StyledMenu = withStyles({
@@ -57,21 +62,37 @@ export default function CustomizedMenus() {
         Menu
       </Button>
       <StyledMenu id='customized-menu' anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <StyledMenuItem onClick={() => history.push('/login')}>
-          <ListItemIcon>Ícone</ListItemIcon>
+        <StyledMenuItem onClick={() => history.push('/nova-noticia')}>
+          <ListItemIcon>
+            <PostAddIcon />
+          </ListItemIcon>
           <ListItemText primary='Adicionar notícia' />
         </StyledMenuItem>
         <StyledMenuItem onClick={() => history.push('/editar-cadastro')}>
-          <ListItemIcon>Ícone</ListItemIcon>
+          <ListItemIcon>
+            <AccountBoxIcon />
+          </ListItemIcon>
           <ListItemText primary='Perfil' />
         </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemIcon>Ícone</ListItemIcon>
+
+        <StyledMenuItem onClick={() => history.push('/solicitar-acesso')}>
+          <ListItemIcon>
+            <AssignmentIndIcon />
+          </ListItemIcon>
           <ListItemText primary='Solicitar acesso de especialista' />
         </StyledMenuItem>
+
         <StyledMenuItem>
-          <ListItemIcon>Ícone</ListItemIcon>
-          <ListItemText primary='Denúncias (admin)' />
+          <ListItemIcon>
+            <WarningIcon />
+          </ListItemIcon>
+          <ListItemText primary='Denúncias (admin)' onClick={() => history.push('/admin-denuncias')} />
+        </StyledMenuItem>
+        <StyledMenuItem>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary='Sair' />
         </StyledMenuItem>
       </StyledMenu>
     </Row>

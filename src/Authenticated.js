@@ -4,12 +4,20 @@ import Home from './routes/Home'
 import Register from './routes/Register'
 import Profile from './routes/Profile'
 import SignInSide from './routes/Logout'
+import PostComments from './routes/PostComments'
+import NewNotice from './routes/NewNotice'
+import RequestAccess from './routes/RequestAccess'
+import Admin from './routes/Admin'
 
 const Authenticated = () => (
   <Switch>
     <Route path='/login' component={SignInSide} />
     <Route path='/cadastro' component={Register} />
     <Route path='/editar-cadastro' component={Profile} />
+    <Route path='/solicitar-acesso' component={RequestAccess} />
+    <Route path='/visualizar-noticia:id' component={PostComments} />
+    <Route path='/nova-noticia' component={NewNotice} />
+    <Route path='/admin-denuncias' component={Admin} />
     <Route path='/home' component={Home} />
     <Redirect to='/login' />
   </Switch>

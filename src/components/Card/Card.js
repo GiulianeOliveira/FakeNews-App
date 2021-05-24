@@ -2,14 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import propTypes from 'prop-types'
 
-const Card = ({ height, width, children, ...props }) => (
-  <EmptyCard height={height} width={width} {...props}>
+const Card = ({ height, width, children, color, marginBottom, ...props }) => (
+  <EmptyCard color={color} height={height} width={width} {...props} marginBottom={marginBottom}>
     {children}
   </EmptyCard>
 )
 
 const EmptyCard = styled.div`
-  background-color: white;
+  background-color: ${({ color }) => color};
   border-radius: 2px;
   justify-content: center;
   align-items: center;
@@ -18,10 +18,11 @@ const EmptyCard = styled.div`
   display: inline;
   flex-direction: row;
   cursor: pointer;
+  margin-bottom: ${({ marginBottom }) => marginBottom};
 `
 Card.defaultProps = {
-  height: '420px',
-  width: '281px'
+  height: '400px',
+  width: '400px'
 }
 
 Card.propTypes = {
