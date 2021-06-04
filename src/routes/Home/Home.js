@@ -38,7 +38,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <Column width='40%' {...{ maxWidth: 792 }} margin='auto' as='form'>
+      <Column width='40%' {...{ maxWidth: 980 }} margin='auto' as='form'>
         <Typography variant='h4' align='center'>
           Feed de notícias
         </Typography>

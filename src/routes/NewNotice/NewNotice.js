@@ -41,7 +41,7 @@ const NewNotice = () => {
         hasIconBack
         path='/sair'
         width='25%'
-        {...{ maxWidth: 792 }}
+        {...{ maxWidth: 980 }}
         margin='auto'
         as='form'
         onSubmit={handleSubmit(onSubmit)}
