@@ -63,7 +63,7 @@ const Register = ({ dados }) => {
         mt='10%'
         hasIconBack
         path='/sair'
-        width='25%'
+        width='35%'
         {...{ maxWidth: 980 }}
         margin='auto'
         as='form'
@@ -72,7 +72,7 @@ const Register = ({ dados }) => {
         <Typography variant='h3' align='center'>
           {dados?.id ? 'Editar perfil' : 'Cadastro'}
         </Typography>
-        <Row mt='30px' justifyContent='space-around'>
+        <Row mt='30px' justifyContent='space-between'>
           <TextField
             variant='outlined'
             margin='normal'
@@ -101,7 +101,7 @@ const Register = ({ dados }) => {
             height='40px'
           />
         </Row>
-        <Row margin='auto' width='482px'>
+        <Row justifyContent='space-between'>
           <TextField
             {...register('email')}
             onChange={e => setValue('email', e.target.value)}
@@ -118,7 +118,7 @@ const Register = ({ dados }) => {
             height='40px'
           />
         </Row>
-        <Row mt='3px' justifyContent='space-around'>
+        <Row justifyContent='space-between'>
           <TextField
             {...register('userName')}
             onChange={e => setValue('userName', e.target.value)}
