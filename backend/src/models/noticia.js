@@ -74,6 +74,7 @@ module.exports = class Noticia {
 
     }
 
+// Porcentagem de fato e fake
     static visualizarNoticia(callback) {
         sql.query(`SELECT x.*, COUNT(avaliacao) AS avaliacaoN FROM 
             (SELECT NOTICIA.*, COUNT(avaliacao) AS avaliacaoP FROM NOTICIA LEFT JOIN AVALIA_ESPECIALISTA_NOTICIA ON 
@@ -92,6 +93,31 @@ module.exports = class Noticia {
                     callback(
                         null,
                         res
+                    )
+                    return;
+                }
+                callback(
+                    { message: "Ocorreu um erro ao carregar as noticias" },
+                    null
+                )
+            })
+    }
+
+// Adicionar Avaliações positivas e negativas (Porcentagem)
+    static buscarNoticiaID(noticia_id, callback){
+        sql.query(`SELECT * FROM NOTICIA WHERE noticia_id LIKE BINARY '${ noticia_id }'`,
+            (err, res) => {
+                if (err) {
+                    callback(
+                        err,
+                        null
+                    )
+                    return;
+                }
+                if (res) {
+                    callback(
+                        null,
+                        res[0]
                     )
                     return;
                 }
@@ -198,5 +224,7 @@ module.exports = class Noticia {
                 return;
             });
     }
+
+// Adicionar a rota de visualização de comentários comentários
 }
 

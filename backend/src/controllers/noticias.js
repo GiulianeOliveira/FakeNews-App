@@ -39,6 +39,20 @@ module.exports = {
         });
     },
 
+    async visualizarNoticiaID(req,res) {
+        const {id} = req.params;
+        Noticia.buscarNoticiaID(id, (err, data) => { 
+            if (err) {
+            res.status(500).send({
+                message:
+                err.message || "Algum erro ocorreu ao carregar a noticia"});
+            } else {
+                // muda a entrada do bd do usuário
+                res.send(data);
+            } 
+        });
+    },
+
     async deletarNoticia(req,res) {
         const {noticia_id} = req.query;
         Noticia.deletarNoticia(noticia_id, (err, data) => { 

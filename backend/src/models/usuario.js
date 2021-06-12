@@ -106,6 +106,7 @@ module.exports = class Usuario {
         });
     }
 
+// Alterar login e senha
     static alterarPerfilUsuario (nome, login, email, callback){
         // caso queira alterar o login, a funcao nao funciona
         sql.query(`UPDATE USUARIO SET nome = '${nome}', email = '${email}' WHERE login LIKE BINARY '${login}'`,
@@ -200,6 +201,7 @@ module.exports = class Usuario {
         return {message: "Done"};
     }
 
+// Adicionar formação e certificado
     static solicitarPromocao(login, callback){
         sql.query("INSERT INTO REQUISICAO_ESPECIALISTA (login) VALUES (?)", 
         [login], (err, res) => {

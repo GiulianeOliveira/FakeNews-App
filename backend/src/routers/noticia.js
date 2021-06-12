@@ -10,6 +10,9 @@ router.post('/crianoticia', NoticiaController.criarNoticia);
 // visualizar noticias
 router.get('/visualizarnoticia', NoticiaController.visualizarNoticias);
 
+// visualizar noticia id
+router.get('/visualizarnoticia/:id', NoticiaController.visualizarNoticiaID);
+
 // adiciona avaliacao positiva na noticia
 router.put('/avaliar', NoticiaController.avaliacao);
 
