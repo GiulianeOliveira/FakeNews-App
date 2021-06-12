@@ -55,19 +55,6 @@ const RequestAccess = () => {
           variant='outlined'
           margin='normal'
           required
-          label='Nome de usuário'
-          name='userName'
-          placeholder='Nome de usuário'
-          width='280px'
-          height='40px'
-          {...register('userName')}
-          onChange={e => setValue('userName', e.target.value)}
-        />
-
-        <TextField
-          variant='outlined'
-          margin='normal'
-          required
           label='Formação/Profissão'
           name='formation'
           placeholder='Formação/Profissão'
@@ -75,20 +62,6 @@ const RequestAccess = () => {
           height='40px'
           {...register('formation')}
           onChange={e => setValue('formation', e.target.value)}
-        />
-
-        <TextField
-          {...register('category')}
-          onChange={e => setValue('category', e.target.value)}
-          variant='outlined'
-          margin='normal'
-          required
-          label='Categoria'
-          name='category'
-          autoFocus
-          placeholder='Categoria'
-          width='280px'
-          height='40px'
         />
 
         <TextField

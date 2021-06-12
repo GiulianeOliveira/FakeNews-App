@@ -63,12 +63,6 @@ const ReportNotice = ({ dados }) => {
           </Row>
           <Row alignItems='baseline'>
             <Column mr='5px' mt='5px'>
-              <Typography className={classes.title}>Data:</Typography>
-            </Column>
-            <Typography className={classes.text}>{dados.data}</Typography>
-          </Row>
-          <Row alignItems='baseline'>
-            <Column mr='5px' mt='5px'>
               <Typography className={classes.title}>Denunciante:</Typography>
             </Column>
             <Typography className={classes.text}>{dados.denunciante}</Typography>

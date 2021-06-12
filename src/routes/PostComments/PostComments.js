@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { Button, Typography } from '@material-ui/core'
+import axios from 'axios'
 // import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import WarningIcon from '@material-ui/icons/Warning'
 // import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt'
@@ -11,36 +13,31 @@ import NewsReview from '../../components/NewsReview'
 import Card from '../../components/Card'
 import Comments from '../../components/Comments'
 import { Logo } from '../../theme/styles'
-import NoticiaMockada from '../../assets/images/NoticiaMockada.jpg'
 
-const noticiaMock = {
-  titulo: 'Hebraica tem excesso de vacinas contra a Covid-19 e doses estão prestes a vencer',
-  descricao:
-    'O clube Hebraica, na Zona Sul de São Paulo, tem uma sobra de vacinas contra a Covid-19, que podem ser descartadas ou perdidas caso não sejam usadas a tempo.',
-  imagem: NoticiaMockada,
-  id: 1,
-  tipo: 'coronavirus',
-  avaliacoes: { positivas: 2, negativas: 1 },
-  comentarios: [
-    'Não acredito que algo como isto seja verdade!',
-    'Espero que algum especialista possa nos confirmar a informação.'
-  ]
-}
-
-// fazer um get pro back-end e buscar a notícia pelo id, o id vem pelo pathname da rota!
-// buscar comentarios com request
-
-// const addressDefaults = {
-//   cep: '',
-//   city: '',
-//   state: '',
-//   neighbourhood: '',
-//   street: '',
-//   house_number: ''
-// }
-
+// GET DE NOTÍCIA PRONTA - FALTA GET DE COMENTÁRIOS
 const PostComments = () => {
-  console.log('teste')
+  const [notice, setNotice] = useState({})
+  let { id } = useParams()
+  id = id.replace(':', '')
+
+  const getNotice = async () => {
+    await axios
+      .get(`http://42bde8b9e312.ngrok.io/visualizarnoticia/${id}`)
+      // eslint-disable-next-line consistent-return
+      .then(res => {
+        if (res.status === 200) {
+          return setNotice(res.data)
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    getNotice()
+  }, [])
+
   return (
     <>
       <Navbar />
@@ -48,15 +45,15 @@ const PostComments = () => {
         <Card backgroundColor='white' marginBottom='15px'>
           <Row>
             <Typography variant='h4'>
-              <b>{noticiaMock.titulo}</b>
+              <b>{notice.titulo}</b>
             </Typography>
           </Row>
           <Row mt='20px' mb='14px'>
-            <Typography>{noticiaMock.descricao}</Typography>
+            <Typography>{notice.descricao}</Typography>
           </Row>
           <Column width='600px'>
             <Row>
-              <Logo src={`${noticiaMock.imagem}`} height='350px' width='600px' />
+              <Logo src={`${notice.imagem}`} height='350px' width='600px' />
             </Row>
             <Row justifyContent='space-between' flexDirection='row-reverse' mt='8px' mb='8px'>
               <Row alignItems='center'>

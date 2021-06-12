@@ -26,7 +26,6 @@ const Authenticated = () => (
     <Route path='/admin-denuncias' component={Admin} />
     {/* Criar sub-rotas para que o admin tenha acesso a denúncias de: notícias e de usuários */}
     <Route path='/home' component={Home} />
-    {/* Fazer o feed utilizar useEffect para atualizar sempre que houver notícias novas */}
     {/* Arrumar o que vem no menu para cada tipo de usuário */}
     {/* Criar rota para admin avaliar requisições de especialistas */}
     <Redirect to='/login' />

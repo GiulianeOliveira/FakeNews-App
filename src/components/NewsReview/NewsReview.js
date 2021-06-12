@@ -7,7 +7,7 @@ import { StyledTypography } from '../../helpers/styles'
 
 const NewsReview = () => {
   const user = { admin: true, normal: false }
-  console.log('teste')
+
   return (
     <Row alignItems='center' padding='0px 10px'>
       {user.admin && (
