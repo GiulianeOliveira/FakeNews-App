@@ -5,6 +5,7 @@ import { TextField, Typography, Button, Checkbox, FormControlLabel } from '@mate
 import axios from 'axios'
 import Wrapper from '../../components/Wrapper'
 import Row from '../../components/Row'
+import Column from '../../components/Column'
 import Navbar from '../../components/Navbar'
 
 const Register = ({ dados }) => {
@@ -59,102 +60,102 @@ const Register = ({ dados }) => {
   return (
     <div>
       <Navbar />
-      <Wrapper
-        mt='10%'
-        hasIconBack
-        path='/sair'
-        width='35%'
-        {...{ maxWidth: 980 }}
-        margin='auto'
-        as='form'
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <Wrapper mt='10%' width='35%' {...{ maxWidth: 980 }} margin='auto' as='form' onSubmit={handleSubmit(onSubmit)}>
         <Typography variant='h3' align='center'>
           {dados?.id ? 'Editar perfil' : 'Cadastro'}
         </Typography>
-        <Row mt='30px' justifyContent='space-between'>
-          <TextField
-            variant='outlined'
-            margin='normal'
-            required
-            defaultValue={dados?.nome}
-            label='Nome'
-            name='firstName'
-            placeholder='Nome'
-            width='280px'
-            height='40px'
-            {...register('firstName')}
-            onChange={e => setValue('firstName', e.target.value)}
-          />
-          <TextField
-            {...register('lastName')}
-            onChange={e => setValue('lastName', e.target.value)}
-            variant='outlined'
-            margin='normal'
-            required
-            defaultValue={dados?.sobrenome}
-            label='Sobrenome'
-            name='lastName'
-            autoFocus
-            placeholder='Sobrenome'
-            width='280px'
-            height='40px'
-          />
+        <Row mt='5%' justifyContent='center'>
+          <Column mr='7%'>
+            <TextField
+              variant='outlined'
+              margin='normal'
+              required
+              defaultValue={dados?.nome}
+              label='Nome'
+              name='firstName'
+              placeholder='Nome'
+              width='280px'
+              height='40px'
+              {...register('firstName')}
+              onChange={e => setValue('firstName', e.target.value)}
+            />
+          </Column>
+          <Column>
+            <TextField
+              {...register('lastName')}
+              onChange={e => setValue('lastName', e.target.value)}
+              variant='outlined'
+              margin='normal'
+              required
+              defaultValue={dados?.sobrenome}
+              label='Sobrenome'
+              name='lastName'
+              autoFocus
+              placeholder='Sobrenome'
+              width='280px'
+              height='40px'
+            />
+          </Column>
         </Row>
-        <Row justifyContent='space-between'>
-          <TextField
-            {...register('email')}
-            onChange={e => setValue('email', e.target.value)}
-            variant='outlined'
-            margin='normal'
-            required
-            defaultValue={dados?.email}
-            fullWidth
-            label='E-mail'
-            name='email'
-            autoFocus
-            placeholder='Email'
-            width='280px'
-            height='40px'
-          />
+        <Row justifyContent='center'>
+          <Column width='490px'>
+            <TextField
+              {...register('email')}
+              onChange={e => setValue('email', e.target.value)}
+              variant='outlined'
+              margin='normal'
+              required
+              defaultValue={dados?.email}
+              fullWidth
+              label='E-mail'
+              name='email'
+              autoFocus
+              placeholder='Email'
+              height='40px'
+            />
+          </Column>
         </Row>
-        <Row justifyContent='space-between'>
-          <TextField
-            {...register('userName')}
-            onChange={e => setValue('userName', e.target.value)}
-            variant='outlined'
-            margin='normal'
-            required
-            defaultValue={dados?.login}
-            label='Nome de usuário'
-            name='userName'
-            autoFocus
-            placeholder='Nome de usuário'
-            width='280px'
-            height='40px'
-          />
-          <TextField
-            {...register('userPassword')}
-            onChange={e => setValue('userPassword', e.target.value)}
-            variant='outlined'
-            type={showPassword ? 'text' : 'password'}
-            margin='normal'
-            required
-            label='Senha'
-            name='userPassword'
-            autoFocus
-            placeholder='Senha'
-            width='280px'
-            height='40px'
-          />
+        <Row justifyContent='center'>
+          <Column mr='7%'>
+            <TextField
+              {...register('userName')}
+              onChange={e => setValue('userName', e.target.value)}
+              variant='outlined'
+              margin='normal'
+              required
+              defaultValue={dados?.login}
+              label='Nome de usuário'
+              name='userName'
+              autoFocus
+              placeholder='Nome de usuário'
+              height='40px'
+            />
+          </Column>
+          <Column>
+            <TextField
+              {...register('userPassword')}
+              onChange={e => setValue('userPassword', e.target.value)}
+              variant='outlined'
+              type={showPassword ? 'text' : 'password'}
+              margin='normal'
+              required
+              label='Senha'
+              name='userPassword'
+              autoFocus
+              placeholder='Senha'
+              width='280px'
+              height='40px'
+            />
+          </Column>
         </Row>
-        <Row flexDirection='row-reverse'>
+
+        <Row flexDirection='row-reverse' mr='15%'>
           <FormControlLabel
             label='Mostrar senha'
             control={<Checkbox value='remember' color='primary' onClick={() => setShowPassword(!showPassword)} />}
           />
         </Row>
-        <Row flexDirection='row-reverse' mt='20px'>
+        <Row flexDirection='row-reverse' mt='20px' width='490px' m='4% auto'>
           <Button type='submit' fullWidth variant='contained' color='primary'>
             {dados?.id ? 'Salvar alterações' : 'Cadastrar'}
           </Button>
