@@ -12,6 +12,7 @@ import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
 import WarningIcon from '@material-ui/icons/Warning'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import Row from '../Row'
+import { useUser } from '../../context/userContext'
 
 const StyledMenu = withStyles({
   paper: {
@@ -47,6 +48,7 @@ const StyledMenuItem = withStyles(theme => ({
 export default function CustomizedMenus() {
   const [anchorEl, setAnchorEl] = useState(null)
   const history = useHistory()
+  const user = useUser()
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -75,19 +77,24 @@ export default function CustomizedMenus() {
           <ListItemText primary='Perfil' />
         </StyledMenuItem>
 
-        <StyledMenuItem onClick={() => history.push('/solicitar-acesso')}>
-          <ListItemIcon>
-            <AssignmentIndIcon />
-          </ListItemIcon>
-          <ListItemText primary='Solicitar acesso de especialista' />
-        </StyledMenuItem>
+        {user.type === 'comum' && (
+          <StyledMenuItem onClick={() => history.push('/solicitar-acesso')}>
+            <ListItemIcon>
+              <AssignmentIndIcon />
+            </ListItemIcon>
+            <ListItemText primary='Solicitar acesso de especialista' />
+          </StyledMenuItem>
+        )}
 
-        <StyledMenuItem>
-          <ListItemIcon>
-            <WarningIcon />
-          </ListItemIcon>
-          <ListItemText primary='Denúncias (admin)' onClick={() => history.push('/admin-denuncias')} />
-        </StyledMenuItem>
+        {user.type === 'admin' && (
+          <StyledMenuItem>
+            <ListItemIcon>
+              <WarningIcon />
+            </ListItemIcon>
+            <ListItemText primary='Denúncias (admin)' onClick={() => history.push('/admin-denuncias')} />
+          </StyledMenuItem>
+        )}
+
         <StyledMenuItem>
           <ListItemIcon>
             <ExitToAppIcon />

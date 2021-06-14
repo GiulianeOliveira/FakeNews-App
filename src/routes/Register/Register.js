@@ -59,7 +59,7 @@ const Register = ({ dados }) => {
   }
   return (
     <div>
-      <Navbar />
+      {dados?.id && <Navbar />}
       <Wrapper width='35%' {...{ maxWidth: 980 }} margin='6% auto' as='form' onSubmit={handleSubmit(onSubmit)}>
         <Typography variant='h3' align='center'>
           {dados?.id ? 'Editar perfil' : 'Cadastro'}

@@ -10,7 +10,6 @@ import Navbar from '../../components/Navbar'
 // PRONTO
 const NewNotice = () => {
   const history = useHistory()
-
   const { register, handleSubmit, setValue } = useForm()
 
   const onSubmit = async data => {
