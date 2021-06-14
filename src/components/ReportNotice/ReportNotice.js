@@ -17,20 +17,20 @@ const useStyles = makeStyles({
     padding: '15px'
   },
   title: {
-    fontSize: '20px',
+    fontSize: '18px',
     fontWeight: '600'
   },
   pos: {
     marginBottom: 12
   },
   link: {
-    fontSize: '20px',
+    fontSize: '18px',
     textDecorationLine: 'none',
     color: 'black',
     fontFamily: 'Roboto, Helvetica'
   },
   text: {
-    fontSize: '20px'
+    fontSize: '18px'
   },
   content: {
     justifyContent: 'center',
@@ -44,43 +44,41 @@ const ReportNotice = ({ dados }) => {
   console.log({ dados })
 
   return (
-    <>
-      <Card className={classes.root} width='50%'>
-        <CardContent>
-          <Row alignItems='baseline'>
-            <Column mr='5px'>
-              <Typography className={classes.title}>Notícia:</Typography>
-            </Column>
-            <a className={classes.link} href={dados.link}>
-              {dados.noticia}
-            </a>
-          </Row>
-          <Row alignItems='baseline'>
-            <Column mr='5px' mt='5px'>
-              <Typography className={classes.title}>Motivo da denúncia:</Typography>
-            </Column>
-            <Typography className={classes.text}>{dados.motivo}</Typography>
-          </Row>
-          <Row alignItems='baseline'>
-            <Column mr='5px' mt='5px'>
-              <Typography className={classes.title}>Denunciante:</Typography>
-            </Column>
-            <Typography className={classes.text}>{dados.denunciante}</Typography>
-          </Row>
-        </CardContent>
-        <Row className={classes.content}>
-          <Typography className={classes.text}>Deletar notícia?</Typography>
+    <Card className={classes.root}>
+      <CardContent>
+        <Row alignItems='baseline'>
+          <Column mr='5px'>
+            <Typography className={classes.title}>Notícia:</Typography>
+          </Column>
+          <a className={classes.link} href={dados.link}>
+            {dados.noticia}
+          </a>
         </Row>
-        <CardActions className={classes.content}>
-          <Button type='submit' variant='contained' color='primary' onClick={() => console.log('DELETADA')}>
-            Deletar
-          </Button>
-          <Button type='submit' variant='contained' color='primary' onClick={() => console.log('IGNORADA')}>
-            Ignorar
-          </Button>
-        </CardActions>
-      </Card>
-    </>
+        <Row alignItems='baseline'>
+          <Column mr='5px' mt='5px'>
+            <Typography className={classes.title}>Motivo da denúncia:</Typography>
+          </Column>
+          <Typography className={classes.text}>{dados.motivo}</Typography>
+        </Row>
+        <Row alignItems='baseline'>
+          <Column mr='5px' mt='5px'>
+            <Typography className={classes.title}>Denunciante:</Typography>
+          </Column>
+          <Typography className={classes.text}>{dados.denunciante}</Typography>
+        </Row>
+      </CardContent>
+      <Row className={classes.content}>
+        <Typography className={classes.text}>Deletar notícia?</Typography>
+      </Row>
+      <CardActions className={classes.content}>
+        <Button type='submit' variant='contained' color='primary' onClick={() => console.log('DELETADA')}>
+          Deletar
+        </Button>
+        <Button type='submit' variant='contained' color='primary' onClick={() => console.log('IGNORADA')}>
+          Ignorar
+        </Button>
+      </CardActions>
+    </Card>
   )
 }
 

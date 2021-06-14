@@ -5,6 +5,7 @@ import { TextField, Typography, Button } from '@material-ui/core'
 // import axios from 'axios'
 import Wrapper from '../../components/Wrapper'
 import Row from '../../components/Row'
+import Column from '../../components/Column'
 import Navbar from '../../components/Navbar'
 
 const RequestAccess = () => {
@@ -37,61 +38,54 @@ const RequestAccess = () => {
   return (
     <div mb='200px'>
       <Navbar />
-      <Wrapper
-        mt='10%'
-        hasIconBack
-        path='/sair'
-        width='25%'
-        {...{ maxWidth: 792 }}
-        margin='auto'
-        as='form'
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Typography variant='h4' align='center'>
-          Solicitar acesso de especialista
-        </Typography>
-
-        <TextField
-          variant='outlined'
-          margin='normal'
-          required
-          label='Formação/Profissão'
-          name='formation'
-          placeholder='Formação/Profissão'
-          width='280px'
-          height='40px'
-          {...register('formation')}
-          onChange={e => setValue('formation', e.target.value)}
-        />
-
-        <TextField
-          {...register('description')}
-          onChange={e => setValue('description', e.target.value)}
-          variant='outlined'
-          margin='normal'
-          required
-          multiline
-          rows={4}
-          label='Por que você quer se tornar especialista?'
-          name='description'
-          autoFocus
-          placeholder='Por que você quer se tornar especialista?'
-          width='280px'
-          height='140px'
-        />
-
-        <Typography>
-          <b>Comprovante de especialista. Ex: certificação</b>
-        </Typography>
-        <Row mt='10px'>
-          <input {...register('certification')} type='file' name='certification' />
+      <Wrapper width='25%' {...{ maxWidth: 792 }} margin='6% auto' as='form' onSubmit={handleSubmit(onSubmit)}>
+        <Row justifyContent='center'>
+          <Typography variant='h4'>Solicitar acesso de Especialista</Typography>
         </Row>
 
-        <Row flexDirection='row-reverse' mt='20px'>
-          <Button type='submit' fullWidth variant='contained' color='primary'>
-            Solicitar acesso
-          </Button>
-        </Row>
+        <Column mt='30px'>
+          <TextField
+            variant='outlined'
+            margin='normal'
+            required
+            label='Formação/Profissão'
+            name='formation'
+            placeholder='Formação/Profissão'
+            width='280px'
+            height='40px'
+            {...register('formation')}
+            onChange={e => setValue('formation', e.target.value)}
+          />
+
+          <TextField
+            {...register('description')}
+            onChange={e => setValue('description', e.target.value)}
+            variant='outlined'
+            margin='normal'
+            required
+            multiline
+            rows={4}
+            label='Por que você quer se tornar especialista?'
+            name='description'
+            autoFocus
+            placeholder='Por que você quer se tornar especialista?'
+            width='280px'
+            height='140px'
+          />
+
+          <Typography>
+            <b>Comprovante de especialista. Ex: certificação</b>
+          </Typography>
+          <Row mt='10px'>
+            <input {...register('certification')} type='file' name='certification' />
+          </Row>
+
+          <Row flexDirection='row-reverse' mt='20px'>
+            <Button type='submit' fullWidth variant='contained' color='primary'>
+              Solicitar acesso
+            </Button>
+          </Row>
+        </Column>
       </Wrapper>
     </div>
   )

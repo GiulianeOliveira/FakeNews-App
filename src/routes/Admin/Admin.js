@@ -2,6 +2,7 @@ import React from 'react'
 import { Typography } from '@material-ui/core'
 import Navbar from '../../components/Navbar'
 import Column from '../../components/Column'
+import Row from '../../components/Row'
 import ReportNotice from '../../components/ReportNotice'
 
 const dadosMocks = [
@@ -12,6 +13,22 @@ const dadosMocks = [
     id: '1',
     data: '22/05',
     denunciante: 'Paula'
+  },
+  {
+    noticia: 'Todos serão mortos',
+    link: 'https://www.google.com.br',
+    motivo: 'Conteúdo Noscivo',
+    id: '2',
+    data: '12/06',
+    denunciante: 'Leandro'
+  },
+  {
+    noticia: 'Todos serão mortos',
+    link: 'https://www.google.com.br',
+    motivo: 'Conteúdo Noscivo',
+    id: '2',
+    data: '12/06',
+    denunciante: 'Leandro'
   },
   {
     noticia: 'Todos serão mortos',
@@ -31,14 +48,32 @@ const Admin = () => {
   return (
     <>
       <Navbar />
-      <Typography variant='h5' component='h2' align='center'>
-        Notícias denunciadas
-      </Typography>
-      {dadosMocks.map(dado => (
-        <Column maxWidth='50%' margin='50px auto'>
-          <ReportNotice key={dado.id} dados={dado} />
+      <Row {...{ maxWidth: 980 }} m='80px auto 130px'>
+        <Column mr='200px'>
+          <Row mb='20px' justifyContent='center'>
+            <Typography variant='h4' component='h2'>
+              Notícias denunciadas
+            </Typography>
+          </Row>
+          {dadosMocks.map(dado => (
+            <Column maxWidth='100%'>
+              <ReportNotice key={dado.id} dados={dado} />
+            </Column>
+          ))}
         </Column>
-      ))}
+        <Column>
+          <Row mb='20px' justifyContent='center'>
+            <Typography variant='h4' component='h2'>
+              Usuários denunciados
+            </Typography>
+          </Row>
+          {dadosMocks.map(dado => (
+            <Column maxWidth='100%'>
+              <ReportNotice key={dado.id} dados={dado} />
+            </Column>
+          ))}
+        </Column>
+      </Row>
     </>
   )
 }

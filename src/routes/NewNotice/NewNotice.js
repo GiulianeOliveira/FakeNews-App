@@ -36,19 +36,10 @@ const NewNotice = () => {
   return (
     <div>
       <Navbar />
-      <Wrapper
-        mt='10%'
-        hasIconBack
-        path='/sair'
-        width='25%'
-        {...{ maxWidth: 980 }}
-        margin='auto'
-        as='form'
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Typography variant='h3' align='center'>
-          Nova notícia
-        </Typography>
+      <Wrapper mt='10%' width='25%' {...{ maxWidth: 980 }} margin='6% auto' as='form' onSubmit={handleSubmit(onSubmit)}>
+        <Row mb='20px' justifyContent='center'>
+          <Typography variant='h3'>Nova notícia</Typography>
+        </Row>
         <TextField
           variant='outlined'
           margin='normal'
@@ -78,9 +69,9 @@ const NewNotice = () => {
           height='140px'
         />
 
-        <Typography>
+        {/* <Typography>
           <b>Url imagem</b>
-        </Typography>
+        </Typography> */}
         {/* <Row mt='10px'>
           <input {...register('image')} type='file' name='image' accept='image/png, image/jpeg' />
         </Row> */}
