@@ -25,4 +25,7 @@ router.post('/denuncia', NoticiaController.denunciarNoticia);
 // comentar noticia
 router.post('/comentarnoticia',NoticiaController.comentarNoticia);
 
+// visualizar comentários pelo id da noticia
+router.get('/visualizarcomentarios/:noticia_id', NoticiaController.visualizarComentario);
+
 module.exports = router;

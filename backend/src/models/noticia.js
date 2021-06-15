@@ -74,7 +74,6 @@ module.exports = class Noticia {
 
     }
 
-// Porcentagem de fato e fake
     static visualizarNoticia(callback) {
         sql.query(`SELECT x.*, COUNT(avaliacao) AS avaliacaoN FROM 
             (SELECT NOTICIA.*, COUNT(avaliacao) AS avaliacaoP FROM NOTICIA LEFT JOIN AVALIA_ESPECIALISTA_NOTICIA ON 
@@ -90,9 +89,24 @@ module.exports = class Noticia {
                     return;
                 }
                 if (res) {
+                    let obj = res.map(notice => {
+                        let percetOfP = 50
+                        let percetOfN = 50
+                        if(notice.avaliacaoP != 0 || notice.avaliacaoN != 0){
+                            percetOfP = (notice.avaliacaoP*100)/(notice.avaliacaoP + notice.avaliacaoN)
+                            percetOfN = (notice.avaliacaoN*100)/(notice.avaliacaoP + notice.avaliacaoN)
+                        }
+                        return (
+                            {
+                                ...notice,
+                                percetOfP: percetOfP,
+                                percentofN: percetOfN
+                            }
+                            )
+                    })
                     callback(
                         null,
-                        res
+                        obj
                     )
                     return;
                 }
@@ -226,5 +240,37 @@ module.exports = class Noticia {
     }
 
 // Adicionar a rota de visualização de comentários comentários
+static visualiarComentarios(noticiaId, callback) {
+    sql.query(`SELECT * FROM COMENTARIO WHERE noticia_id = ${noticiaId}`,
+        (err, res) => {
+            if (err) {
+                callback(
+                    err,
+                    null
+                )
+                return;
+            }
+            if (res) {   
+                let obj = res.map(comment => {
+                   return (
+                        {
+                            data: comment.data,
+                            comentario: comment.conteudo
+                        }
+                        )
+                })             
+                callback(
+                    null,
+                    obj
+                )
+                return
+            }
+            callback(
+                { message: "Erro ao visualizar o comentário" },
+                null
+            )
+            return;
+        });
+}
 }
 

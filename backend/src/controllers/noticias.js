@@ -92,5 +92,18 @@ module.exports = {
                 res.send(data)
             }
         });
-    }
+    },
+    async visualizarComentario(req,res) {
+        const {noticia_id} = req.params;
+        Noticia.visualiarComentarios(noticia_id, (err, data) => { 
+            if (err) {
+            res.status(500).send({
+                message:
+                err.message || "Algum erro ocorreu ao visualizar comentarios"});
+            } else {
+                // muda a entrada do bd do usuário
+                res.send(data);
+            } 
+        });
+    },
 }
