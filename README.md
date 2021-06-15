@@ -109,10 +109,15 @@ Necessita a instalação do [Mysql](https://www.mysql.com/) na máquina local
 3.1 Criar banco:
 
 ```sh
-npm run init-sql
+npm run create-sql
+```
+3.2 Inicializar banco com configurações default:
+
+```sh
+npm run create-sql
 ```
 
-3.2 Criar banco:
+3.3 Deletar banco:
 
 ```sh
 npm run delete-sql
