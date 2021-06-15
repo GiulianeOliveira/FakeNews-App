@@ -201,6 +201,30 @@ module.exports = class Usuario {
         return {message: "Done"};
     }
 
+static listarUsuarioDenuncia(callback){
+    sql.query("SELECT * FROM DENUNCIA_USUARIO WHERE status = 'em_espera'", (err, res) => {
+        if(err){
+            callback(
+                err, 
+                {status: false}
+            )
+            return;
+        }
+        if (res) {
+            callback(
+                null, 
+                res
+            )
+            return;
+        }
+        callback(
+            {message: "Erro ao listar usuários denúnciados"}, 
+            null
+        )
+    })
+    return {message: "Done"};
+}
+
 // Adicionar formação e certificado
     static solicitarPromocao(login, callback){
         sql.query("INSERT INTO REQUISICAO_ESPECIALISTA (login) VALUES (?)", 

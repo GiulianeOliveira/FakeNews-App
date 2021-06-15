@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "init-sql": "mysql -u root -p < ./database/db.sql",
+    "create-sql": "mysql -u root -p < ./database/db.sql",
+    "init-sql": "mysql -u root -p < ./database/initial-config.sql",
     "delete-sql": "mysql -u root -p < ./database/delete-db.sql",
     "ngrok": "ngrok http 3000",
     "server": "nodemon ./index.js"

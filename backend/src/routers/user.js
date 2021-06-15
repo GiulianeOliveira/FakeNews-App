@@ -25,6 +25,9 @@ router.delete('/delete/:login', UserController.deletarUsuario);
 // denuncia usuario
 router.post('/report', UserController.denunciaUsuario);
 
+// visualizar usuários denunciados em espera
+router.get('/usuariodenuncia', UserController.visualizarUsuarioDenuncia);
+
 // solicitar acesso especialista
 router.post('/askpromotion', UserController.pedirPromocao);
 // /askpromotion?login=user1Login

@@ -103,6 +103,19 @@ module.exports = {
         
     },
 
+    async visualizarUsuarioDenuncia(req, res) {
+        User.listarUsuarioDenuncia((err, data) => { 
+            if (err) {
+                res.status(500).send({
+                message:
+                err.message || "Algum erro ocorreu ao visualizar usuarios denunciados"});
+            } else {
+                res.send(data);
+            } 
+        });
+        
+    },
+
     async pedirPromocao(req, res){
         const login = req.query.login;
         
