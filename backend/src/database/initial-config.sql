@@ -57,25 +57,57 @@ INSERT INTO NOTICIA (login, titulo, imagem, descricao) VALUES
 
 -- Inserir comentários
 INSERT INTO COMENTARIO (sequencia, noticia_id, login, data, conteudo) VALUES
-(1, 1, 'user1', '2021-06-15', 'Conteúdo para o comentário da notícia'),
-(2, 1, 'user1', '2021-06-14', 'Conteúdo para o comentário da notícia'),
-(3, 1, 'user2', '2021-06-14', 'Conteúdo para o comentário da notícia'),
-(4, 1, 'user3', '2021-06-15', 'Conteúdo para o comentário da notícia'),
-(1, 2, 'user2', '2021-06-13', 'Conteúdo para o comentário da notícia'),
-(2, 2, 'user4', '2021-06-13', 'Conteúdo para o comentário da notícia'),
-(1, 3, 'user4', '2021-06-15', 'Conteúdo para o comentário da notícia'),
-(2, 3, 'user5', '2021-06-12', 'Conteúdo para o comentário da notícia'),
-(3, 3, 'user2', '2021-06-11', 'Conteúdo para o comentário da notícia'),
-(1, 4, 'user1', '2021-06-15', 'Conteúdo para o comentário da notícia'),
-(1, 5, 'user4', '2021-06-15', 'Conteúdo para o comentário da notícia'),
-(1, 6, 'user7', '2021-06-14', 'Conteúdo para o comentário da notícia'),
-(1, 7, 'user8', '2021-06-15', 'Conteúdo para o comentário da notícia'),
-(1, 8, 'user3', '2021-06-10', 'Conteúdo para o comentário da notícia');
+(1, 1, 'user1', '2021-06-15 23:59:59', 'Conteúdo para o comentário da notícia'),
+(2, 1, 'user1', '2021-06-14 23:59:59', 'Conteúdo para o comentário da notícia'),
+(3, 1, 'user2', '2021-06-14 23:59:59', 'Conteúdo para o comentário da notícia'),
+(4, 1, 'user3', '2021-06-15 23:59:59', 'Conteúdo para o comentário da notícia'),
+(1, 2, 'user2', '2021-06-13 23:59:59', 'Conteúdo para o comentário da notícia'),
+(2, 2, 'user4', '2021-06-13 23:59:59', 'Conteúdo para o comentário da notícia'),
+(1, 3, 'user4', '2021-06-15 23:59:59', 'Conteúdo para o comentário da notícia'),
+(2, 3, 'user5', '2021-06-12 23:59:59', 'Conteúdo para o comentário da notícia'),
+(3, 3, 'user2', '2021-06-11 23:59:59', 'Conteúdo para o comentário da notícia'),
+(1, 4, 'user1', '2021-06-15 23:59:59', 'Conteúdo para o comentário da notícia'),
+(1, 5, 'user4', '2021-06-15 23:59:59', 'Conteúdo para o comentário da notícia'),
+(1, 6, 'user7', '2021-06-14 23:59:59', 'Conteúdo para o comentário da notícia'),
+(1, 7, 'user8', '2021-06-15 23:59:59', 'Conteúdo para o comentário da notícia'),
+(1, 8, 'user3', '2021-06-10 23:59:59', 'Conteúdo para o comentário da notícia');
 
 -- Inserir denuncia usuário
 INSERT INTO DENUNCIA_USUARIO (login_denunciante, login_denunciado, data, status, conteudo) VALUES
 ('user1','user2', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário'),
 ('user1','user3', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário'),
 ('user2','user1', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário'),
-('user3','user4', '2021-06-15', 'aprovado', 'Conteúdo da denúncia do usuário'),
+('user3','user4', '2021-06-15', 'aprovado' , 'Conteúdo da denúncia do usuário'),
 ('user2','user8', '2021-06-15', 'reprovado', 'Conteúdo da denúncia do usuário');
+
+-- Inserir denuncia notícia
+INSERT INTO DENUNCIA_NOTICIA (login, noticia_id, data_denuncia, status_denuncia, conteudo) VALUES
+('user1',2 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia'),
+('user1',3 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia'),
+('user2',1 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia'),
+('user3',7 , '2021-06-15', 'aprovado' , 'Conteúdo da denúncia da notícia'),
+('user2',5 , '2021-06-15', 'reprovado', 'Conteúdo da denúncia da notícia');
+
+-- Inserir avaliação especialista
+INSERT INTO AVALIA_ESPECIALISTA_NOTICIA (login, noticia_id, avaliacao) VALUES
+('user1',2 , 'fake'),
+('user1',1 , 'fato'),
+('user2',1 , 'fato'),
+('user3',7 , 'fake'),
+('user1',3 , 'fake'),
+('user4',1 , 'fato'),
+('user2',2 , 'fake'),
+('user3',1 , 'fake'),
+('user3',5 , 'fato'),
+('user4',5 , 'fake');
+
+-- Inserir arequisição especialista
+INSERT INTO REQUISICAO_ESPECIALISTA (login, status) VALUES
+('user1', 'aprovado'),
+('user2', 'aprovado'),
+('user3', 'aprovado'),
+('user4', 'aprovado'),
+('user5', 'em_espera'),
+('user6', 'em_espera'),
+('user7', 'em_espera'),
+('user8', 'reprovado');
