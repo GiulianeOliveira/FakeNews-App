@@ -114,7 +114,7 @@ npm run create-sql
 3.2 Inicializar banco com configurações default:
 
 ```sh
-npm run create-sql
+npm run init-sql
 ```
 
 3.3 Deletar banco:
