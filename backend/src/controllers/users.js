@@ -128,6 +128,19 @@ module.exports = {
                 res.send(data);
             } 
         })
+    },
+
+    async visualizarUsuarioAcesso(req, res) {
+        User.listarUsuarioAcessoEspecialista((err, data) => { 
+            if (err) {
+                res.status(500).send({
+                message:
+                err.message || "Algum erro ocorreu ao visualizar usuarios que pediram acesso de especialista"});
+            } else {
+                res.send(data);
+            } 
+        });
+        
     }
     
     

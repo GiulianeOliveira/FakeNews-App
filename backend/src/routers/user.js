@@ -32,4 +32,7 @@ router.get('/usuariodenuncia', UserController.visualizarUsuarioDenuncia);
 router.post('/askpromotion', UserController.pedirPromocao);
 // /askpromotion?login=user1Login
 
+// visualizar usuários acesso especialista
+router.get('/usuarioacesso', UserController.visualizarUsuarioAcesso);
+
 module.exports = router;

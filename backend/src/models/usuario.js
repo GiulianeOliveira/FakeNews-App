@@ -13,7 +13,8 @@ module.exports = class Usuario {
     }
 
     criarUsuario(callback){
-        const senha_criptografada = bcrypt.hashSync(this.senha, 10);
+/*         const senha_criptografada = bcrypt.hashSync(this.senha, 10); */
+        const senha_criptografada = this.senha;
         sql.query("INSERT INTO USUARIO (nome, login, senha, email, especialista) VALUES (?,?,?,?,?)", 
         [this.nome, this.login, senha_criptografada, this.email, 0], (err, res) => {
             if(err) {
@@ -71,7 +72,8 @@ module.exports = class Usuario {
             }
             if(res){   
                 if (res[0] != undefined){
-                   if (bcrypt.compareSync(senha, res[0].senha)){
+                   /* if (bcrypt.compareSync(senha, res[0].senha)){ */
+                   if (senha == res[0].senha){
                         callback(
                             null, 
                             {
@@ -251,6 +253,28 @@ static listarUsuarioDenuncia(callback){
         return {message: "Done"};
     }
 
-
+    static listarUsuarioAcessoEspecialista(callback){
+        sql.query("SELECT * FROM REQUISICAO_ESPECIALISTA WHERE status = 'em_espera'", (err, res) => {
+            if(err){
+                callback(
+                    err, 
+                    {status: false}
+                )
+                return;
+            }
+            if (res) {
+                callback(
+                    null, 
+                    res
+                )
+                return;
+            }
+            callback(
+                {message: "Erro ao listar usuários que pediram acesso"}, 
+                null
+            )
+        })
+        return {message: "Done"};
+    }
 
 }
