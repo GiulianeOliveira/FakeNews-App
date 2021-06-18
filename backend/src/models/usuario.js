@@ -109,9 +109,9 @@ module.exports = class Usuario {
     }
 
 // Alterar login e senha
-    static alterarPerfilUsuario (nome, login, email, callback){
+    static alterarPerfilUsuario (nome, login, email, senha, novoLogin, callback){
         // caso queira alterar o login, a funcao nao funciona
-        sql.query(`UPDATE USUARIO SET nome = '${nome}', email = '${email}' WHERE login LIKE BINARY '${login}'`,
+        sql.query(`UPDATE USUARIO SET nome = '${nome}', email = '${email}', senha = '${senha}', login = '${novoLogin}' WHERE login LIKE BINARY '${login}'`,
         (err, res) => {
             if(err){
                 console.log("error: ", err);
@@ -178,6 +178,7 @@ module.exports = class Usuario {
         })
     }
 
+// Remover data
     static denunciarUsuario(denunciante,denunciado,data,conteudo, callback){
         sql.query("INSERT INTO DENUNCIA_USUARIO (login_denunciante, login_denunciado, data, conteudo) VALUES (?,?,?,?)", 
         [denunciante, denunciado, data, conteudo],  (err, res) => {
@@ -203,34 +204,33 @@ module.exports = class Usuario {
         return {message: "Done"};
     }
 
-static listarUsuarioDenuncia(callback){
-    sql.query("SELECT * FROM DENUNCIA_USUARIO WHERE status = 'em_espera'", (err, res) => {
-        if(err){
+    static listarUsuarioDenuncia(callback){
+        sql.query("SELECT * FROM DENUNCIA_USUARIO WHERE status = 'em_espera'", (err, res) => {
+            if(err){
+                callback(
+                    err, 
+                    {status: false}
+                )
+                return;
+            }
+            if (res) {
+                callback(
+                    null, 
+                    res
+                )
+                return;
+            }
             callback(
-                err, 
-                {status: false}
+                {message: "Erro ao listar usuários denúnciados"}, 
+                null
             )
-            return;
-        }
-        if (res) {
-            callback(
-                null, 
-                res
-            )
-            return;
-        }
-        callback(
-            {message: "Erro ao listar usuários denúnciados"}, 
-            null
-        )
-    })
-    return {message: "Done"};
-}
+        })
+        return {message: "Done"};
+    }
 
-// Adicionar formação e certificado
-    static solicitarPromocao(login, callback){
-        sql.query("INSERT INTO REQUISICAO_ESPECIALISTA (login) VALUES (?)", 
-        [login], (err, res) => {
+    static solicitarPromocao(login, formacao, certificado, callback){
+        sql.query("INSERT INTO REQUISICAO_ESPECIALISTA (login, formacao, certificado) VALUES (?,?,?)", 
+        [login, formacao, certificado], (err, res) => {
             if(err){
                 callback(
                     err, 

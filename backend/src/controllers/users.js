@@ -32,9 +32,9 @@ module.exports = {
     },
 
     async alterarPerfil (req, res){
-        const {nome, login, email } = req.body;
+        const {nome, login, email, senha, novo_login } = req.body;
     
-        User.alterarPerfilUsuario(nome, login, email, (err, data) => { 
+        User.alterarPerfilUsuario(nome, login, email, senha, novo_login, (err, data) => { 
             if (err) {
             res.status(500).send({
                 message:
@@ -47,7 +47,6 @@ module.exports = {
     },
     
     async login (req, res){
-        console.log(req.body);
         const {login, senha} = req.body;
     
         User.buscarLoginESenha(login, senha, (err, data) => { 
@@ -118,8 +117,9 @@ module.exports = {
 
     async pedirPromocao(req, res){
         const login = req.query.login;
+        const {formacao, certificado} = req.body;
         
-        User.solicitarPromocao(login, (err, data) => {
+        User.solicitarPromocao(login, formacao, certificado, (err, data) => {
             if (err) {
                 res.status(500).send({
                 message:

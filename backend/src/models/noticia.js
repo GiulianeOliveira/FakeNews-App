@@ -117,6 +117,30 @@ module.exports = class Noticia {
             })
     }
 
+    static listarsNoticiaDenuncia(callback){
+        sql.query("SELECT * FROM DENUNCIA_NOTICIA WHERE status_denuncia = 'em_espera'", (err, res) => {
+            if(err){
+                callback(
+                    err, 
+                    {status: false}
+                )
+                return;
+            }
+            if (res) {
+                callback(
+                    null, 
+                    res
+                )
+                return;
+            }
+            callback(
+                {message: "Erro ao listar usuários denúnciados"}, 
+                null
+            )
+        })
+        return {message: "Done"};
+    }
+
 // Adicionar Avaliações positivas e negativas (Porcentagem)
     static buscarNoticiaID(noticia_id, callback){
         sql.query(`SELECT * FROM NOTICIA WHERE noticia_id LIKE BINARY '${ noticia_id }'`,
@@ -239,9 +263,8 @@ module.exports = class Noticia {
             });
     }
 
-// Adicionar a rota de visualização de comentários comentários
 static visualiarComentarios(noticiaId, callback) {
-    sql.query(`SELECT * FROM COMENTARIO WHERE noticia_id = ${noticiaId}`,
+    sql.query(`UPDATE DENUNCI_NOTICIA SET especialista = 1 WHERE noticia_id = ${noticiaId}`,
         (err, res) => {
             if (err) {
                 callback(
@@ -254,6 +277,7 @@ static visualiarComentarios(noticiaId, callback) {
                 let obj = res.map(comment => {
                    return (
                         {
+                            usuario: comment.login,
                             data: comment.data,
                             comentario: comment.conteudo
                         }
@@ -272,5 +296,38 @@ static visualiarComentarios(noticiaId, callback) {
             return;
         });
 }
+static ignorarDenuncia(noticia_id, login, callback) {
+    sql.query(`UPDATE DENUNCIA_NOTICIA SET status_denuncia = 'reprovado' WHERE noticia_id = '${noticia_id}' AND login LIKE BINARY '${login}'`,
+        (err, res) => {
+            if (err) {
+                callback(
+                    err,
+                    { status: false }
+                )
+                return;
+            }
+            if (res) {
+                if (res.affectedRows) {
+                    callback(
+                        null,
+                        { status: true }
+                    )
+                    return;
+                } else {
+                    callback(
+                        { message: "A denuncia não existe" },
+                        { status: false }
+                    )
+                    return;
+                }
+
+            }
+            callback(
+                { message: "Ocorreu um erro ao ignorar a denuncia" },
+                { status: false }
+            )
+        });
+}
+
 }
 

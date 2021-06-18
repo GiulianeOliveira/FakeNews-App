@@ -77,6 +77,8 @@ CREATE TABLE AVALIA_ESPECIALISTA_NOTICIA (
 
 CREATE TABLE REQUISICAO_ESPECIALISTA (
     login VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO` (`login`),
+    formacao TEXT NOT NULL,
+    certificado BLOB NOT NULL,
     status ENUM('em_espera', 'aprovado', 'reprovado') DEFAULT "em_espera",
     PRIMARY KEY (`login`)
 );

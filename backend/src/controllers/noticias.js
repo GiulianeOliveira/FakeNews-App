@@ -81,6 +81,18 @@ module.exports = {
         });
     },
 
+    async visualizarNoticiaDenuncia(req, res) {
+        Noticia.listarsNoticiaDenuncia((err, data) => { 
+            if (err) {
+                res.status(500).send({
+                message:
+                err.message || "Algum erro ocorreu ao visualizar usuarios denunciados"});
+            } else {
+                res.send(data);
+            } 
+        });
+    },
+
     async comentarNoticia(req,res) {
         const {noticiaId, login, data, conteudo} = req.body;
         Noticia.comentarNoticia(noticiaId, login, data, conteudo, (err, data) => {
@@ -93,6 +105,7 @@ module.exports = {
             }
         });
     },
+
     async visualizarComentario(req,res) {
         const {noticia_id} = req.params;
         Noticia.visualiarComentarios(noticia_id, (err, data) => { 
@@ -106,4 +119,17 @@ module.exports = {
             } 
         });
     },
+    async ignorarDenuncia(req,res){
+        const {noticia_id,login} = req.body;
+        Noticia.ignorarDenuncia(noticia_id, login, (err, data) => { 
+            if (err) {
+            res.status(500).send({
+                message:
+                err.message || "Algum erro ocorreu ao visualizar comentarios"});
+            } else {
+                // muda a entrada do bd do usuário
+                res.send(data);
+            } 
+        });
+    }
 }
