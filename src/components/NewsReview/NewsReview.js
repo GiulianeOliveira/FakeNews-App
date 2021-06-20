@@ -15,8 +15,7 @@ const NewsReview = ({ positiva, negativa, noticeId }) => {
   const onSubmit = async voto => {
     await axios
       .put('http://f1ca5156fd21.ngrok.io/avaliar', { login: user.login, noticiaId: noticeId, avaliacao: voto })
-      .then(res => {
-        console.log(res)
+      .then(() => {
         setVote(true)
       })
       .catch(error => {

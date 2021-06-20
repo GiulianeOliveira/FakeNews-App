@@ -13,8 +13,8 @@ import AnalysisSpecialistRequest from './routes/AnalysisSpecialistRequest'
 import { AuthContext } from './AuthProvider'
 
 const Authenticated = () => {
-  const [user, setUser] = useContext(AuthContext)
-  console.log(user, setUser, 'TESTEEEEE')
+  const [user] = useContext(AuthContext)
+
   return (
     <Switch>
       <Route path='/login' component={SignInSide} />

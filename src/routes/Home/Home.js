@@ -17,7 +17,7 @@ const Home = () => {
 
   const getNotice = async () => {
     await axios
-      .get('http://f1ca5156fd21.ngrok.io/visualizarnoticia')
+      .get('http://localhost:3333/visualizarnoticia')
       // getNotices()
       // eslint-disable-next-line consistent-return
       .then(res => {

@@ -3,22 +3,17 @@ import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import { TextField, Typography, Button } from '@material-ui/core'
 import axios from 'axios'
-// import { postNotice } from '../../services'
 import Wrapper from '../../components/Wrapper'
 import Row from '../../components/Row'
 import Navbar from '../../components/Navbar'
 
-// PRONTO
 const NewNotice = () => {
   const history = useHistory()
   const { register, handleSubmit, setValue } = useForm()
 
   const onSubmit = async data => {
-    console.log('NOVA NOTÍCIA', data)
-    // TESTAR
-    // await postNotice(data)
     await axios
-      .post('http://3c182eeb48b3.ngrok.io/crianoticia', {
+      .post('http://localhost:3333/crianoticia', {
         login: 'Teste12',
         titulo: data.notice_title,
         imagem: data.img,
@@ -71,12 +66,6 @@ const NewNotice = () => {
           height='140px'
         />
 
-        {/* <Typography>
-          <b>Url imagem</b>
-        </Typography> */}
-        {/* <Row mt='10px'>
-          <input {...register('image')} type='file' name='image' accept='image/png, image/jpeg' />
-        </Row> */}
         <TextField
           variant='outlined'
           margin='normal'

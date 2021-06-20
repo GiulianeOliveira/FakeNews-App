@@ -14,9 +14,8 @@ const AnalysisSpecialistRequest = () => {
   const [valid, setValid] = useState(false)
 
   const getAccess = async () => {
-    // await viewNotice(id)
     await axios
-      .get('http://e060003e3f5e.ngrok.io/usuarioacesso')
+      .get('http://localhost:3333/usuarioacesso')
       // eslint-disable-next-line consistent-return
       .then(res => {
         setSolicitacoes(res.data)
@@ -26,11 +25,9 @@ const AnalysisSpecialistRequest = () => {
         console.log(error)
       })
   }
-  console.log(solicitacoes, '<<<<<<<')
 
   useEffect(() => {
     getAccess()
-    console.log(solicitacoes, '<<<<<<<')
   }, [valid])
 
   return (

@@ -1,49 +1,51 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import styled from 'styled-components'
 import { Typography } from '@material-ui/core'
 import Navbar from '../../components/Navbar'
 import Column from '../../components/Column'
 import Row from '../../components/Row'
 import ReportNotice from '../../components/ReportNotice'
 
-const dadosMocks = [
-  {
-    noticia: 'Cadastre-se para ganhar dinheiro',
-    link: 'https://www.google.com.br',
-    motivo: 'Spam',
-    id: '1',
-    data: '22/05',
-    denunciante: 'Paula'
-  },
-  {
-    noticia: 'Todos serão mortos',
-    link: 'https://www.google.com.br',
-    motivo: 'Conteúdo Noscivo',
-    id: '2',
-    data: '12/06',
-    denunciante: 'Leandro'
-  },
-  {
-    noticia: 'Todos serão mortos',
-    link: 'https://www.google.com.br',
-    motivo: 'Conteúdo Noscivo',
-    id: '2',
-    data: '12/06',
-    denunciante: 'Leandro'
-  },
-  {
-    noticia: 'Todos serão mortos',
-    link: 'https://www.google.com.br',
-    motivo: 'Conteúdo Noscivo',
-    id: '2',
-    data: '12/06',
-    denunciante: 'Leandro'
-  }
-]
-
 // Fazer useEffect e sempre que deletar uma notícia da refresh na página
 
 const Admin = () => {
-  console.log('teste')
+  const [noticesReported, setNoticesReported] = useState([])
+  const [isDeletedReportedNotice, setIsDeletedReportedNotice] = useState(false)
+  const [usersReported, setUsersReported] = useState([])
+  const [isDeletedReportedUser, setIsDeletedReportedUser] = useState(false)
+
+  const getReportNotice = async () => {
+    await axios
+      .get('http://localhost:3333/noticiadenuncia')
+      .then(res => {
+        setNoticesReported(res.data)
+        setIsDeletedReportedNotice(false)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    getReportNotice()
+  }, [isDeletedReportedNotice])
+
+  const getReportedUsers = async () => {
+    await axios
+      .get('http://localhost:3333/usuariodenuncia')
+      .then(res => {
+        setUsersReported(res.data)
+        setIsDeletedReportedUser(false)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    getReportedUsers()
+  }, [isDeletedReportedUser])
 
   return (
     <>
@@ -55,11 +57,18 @@ const Admin = () => {
               Notícias denunciadas
             </Typography>
           </Row>
-          {dadosMocks.map(dado => (
+          {noticesReported?.map(dado => (
             <Column maxWidth='100%'>
-              <ReportNotice key={dado.id} dados={dado} />
+              <ReportNotice key={dado.id} dados={dado} setIsDeletedReportedNotice={setIsDeletedReportedNotice} />
             </Column>
           ))}
+          {noticesReported.length < 1 && (
+            <Column margin='20% auto' width='400px'>
+              <div align='center'>
+                <FontMessage>Não há notícias denunciadas.</FontMessage>
+              </div>
+            </Column>
+          )}
         </Column>
         <Column>
           <Row mb='20px' justifyContent='center'>
@@ -67,11 +76,18 @@ const Admin = () => {
               Usuários denunciados
             </Typography>
           </Row>
-          {dadosMocks.map(dado => (
-            <Column maxWidth='100%'>
-              <ReportNotice key={dado.id} dados={dado} />
+          {usersReported?.map(dado => (
+            <Column width='400px'>
+              <ReportNotice isUser key={dado.id} dados={dado} setIsDeletedReportedUser={setIsDeletedReportedUser} />
             </Column>
           ))}
+          {noticesReported.length < 1 && (
+            <Column margin='20% auto' width='400px'>
+              <div align='center'>
+                <FontMessage>Não há usuários denunciados.</FontMessage>
+              </div>
+            </Column>
+          )}
         </Column>
       </Row>
     </>
@@ -79,4 +95,7 @@ const Admin = () => {
 }
 
 export default Admin
-// Usuario, profissao, categoria, motivo pq especialista e doc comprovante
+
+const FontMessage = styled.p`
+  font-size: larger;
+`

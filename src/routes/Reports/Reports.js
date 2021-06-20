@@ -20,7 +20,7 @@ const Reports = () => {
   const onSubmit = async data => {
     if (isUserReport) {
       await axios // REPORT USUÁRIO
-        .post('http://bd94307b6085.ngrok.io/report', {
+        .post('http://localhost:3333/report', {
           denunciante: user.login,
           denunciado: id.split(':')[2],
           conteudo: data.reason,
@@ -38,9 +38,8 @@ const Reports = () => {
         })
     } else {
       // REPORT NOTÍCIA
-      console.log('REPORT NOTICIA')
       await axios
-        .post(`http://bd94307b6085.ngrok.io/denuncia?login=${user.login}&noticia_id=${id.replace(':', '')}`, {
+        .post(`http://localhost:3333/denuncia?login=${user.login}&noticia_id=${id.replace(':', '')}`, {
           conteudo: data.reason,
           data: '2021-06-18'
         })
@@ -49,7 +48,6 @@ const Reports = () => {
           if (res.status === 200) {
             history.push(`/visualizar-noticia${id}`)
           }
-          console.log(res.data)
         })
         .catch(error => {
           console.log(error)

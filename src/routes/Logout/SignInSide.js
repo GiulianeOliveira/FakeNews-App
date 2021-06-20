@@ -75,7 +75,7 @@ export default function SignInSide() {
     // setUser(data)
     // history.push('/home')
     await axios
-      .post('http://e060003e3f5e.ngrok.io/signin', { login: data.userName, senha: data.password })
+      .post('http://localhost:3333/signin', { login: data.userName, senha: data.password })
       .then(res => {
         setUser(res.data)
         history.push('/home')

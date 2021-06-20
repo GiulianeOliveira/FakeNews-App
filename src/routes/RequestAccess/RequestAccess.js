@@ -18,13 +18,12 @@ const RequestAccess = () => {
     console.log(data)
 
     await axios
-      .post(`http://f1ca5156fd21.ngrok.io/askpromotion?login=${user.login}`, {
+      .post(`http://localhost:3333/askpromotion?login=${user.login}`, {
         formacao: data.formation,
         certificado: data.certification,
         descricao: data.description
       })
-      .then(res => {
-        console.log(res)
+      .then(() => {
         history.push('/home')
       })
       .catch(error => {

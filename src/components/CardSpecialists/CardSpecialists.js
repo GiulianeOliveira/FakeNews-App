@@ -53,8 +53,7 @@ const CardSpecialists = ({ dados, setValid }) => {
         login: dados.login,
         status: aprove
       })
-      .then(res => {
-        console.log(res)
+      .then(() => {
         setValid(true)
       })
       .catch(error => {

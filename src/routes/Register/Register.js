@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import { TextField, Typography, Button, Checkbox, FormControlLabel } from '@material-ui/core'
 import axios from 'axios'
-// import { newUser } from '../../services/requests'
 import Wrapper from '../../components/Wrapper'
 import Row from '../../components/Row'
 import Column from '../../components/Column'
@@ -11,7 +10,6 @@ import Navbar from '../../components/Navbar'
 import { AuthContext } from '../../AuthProvider'
 
 const Register = ({ dados }) => {
-  // console.log(dados, '<<<<<<<<<<<<<<<<<<<<<<<<<<')
   const [showPassword, setShowPassword] = useState(false)
   const [user, setUser] = useContext(AuthContext)
   const history = useHistory()
@@ -20,10 +18,8 @@ const Register = ({ dados }) => {
   const onSubmit = async data => {
     if (!dados) {
       // se não houver id de usuário é porque é um novo cadastro
-      console.log('NOVO USUÁRIO', data)
-      // await newUser(completeName, data)
       await axios
-        .post('http://f1ca5156fd21.ngrok.io/user', {
+        .post('http://localhost:3333/user', {
           nome: data.firstName,
           sobrenome: data.lastName,
           login: data.userName,
@@ -40,10 +36,8 @@ const Register = ({ dados }) => {
         })
     } else {
       // editar dados de  usuário já existente
-      // await editUser()
-      // console.log('EDITAR USUÁRIO', data)
       await axios
-        .put('http://f1ca5156fd21.ngrok.io/user', {
+        .put('http://localhost:3333/user', {
           nome: data.firstName,
           sobrenome: data.lastName,
           login: user.login,
@@ -56,7 +50,6 @@ const Register = ({ dados }) => {
             setUser(res.data)
             history.push('/home')
           }
-          console.log(user)
         })
         .catch(error => {
           console.log(error)

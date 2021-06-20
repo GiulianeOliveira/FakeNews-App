@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { Button, Typography } from '@material-ui/core'
 import axios from 'axios'
-// import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import WarningIcon from '@material-ui/icons/Warning'
-// import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import Navbar from '../../components/Navbar'
 import Column from '../../components/Column'
@@ -13,9 +11,7 @@ import NewsReview from '../../components/NewsReview'
 import Card from '../../components/Card'
 import Comments from '../../components/Comments'
 import { Logo } from '../../theme/styles'
-// import { viewNotice } from '../../services/requests'
 
-// GET DE NOTÍCIA PRONTA - FALTA GET DE COMENTÁRIOS - FALTA ID DE USUARIO QUE QUER DENUNCIAR
 const PostComments = () => {
   const [notice, setNotice] = useState({})
   const history = useHistory()
@@ -24,9 +20,8 @@ const PostComments = () => {
   const { login } = notice
 
   const getNotice = async () => {
-    // await viewNotice(id)
     await axios
-      .get(`http://f1ca5156fd21.ngrok.io/visualizarnoticia/${id}`)
+      .get(`http://localhost:3333/visualizarnoticia/${id}`)
       // eslint-disable-next-line consistent-return
       .then(res => {
         if (res.status === 200) {
@@ -40,7 +35,6 @@ const PostComments = () => {
 
   useEffect(() => {
     getNotice()
-    console.log(notice)
   }, [])
 
   return (

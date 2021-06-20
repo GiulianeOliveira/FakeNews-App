@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-expressions */
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import axios from 'axios'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
@@ -25,9 +28,13 @@ const useStyles = makeStyles({
   },
   link: {
     fontSize: '18px',
-    textDecorationLine: 'none',
     color: 'black',
-    fontFamily: 'Roboto, Helvetica'
+    fontFamily: 'Roboto, Helvetica',
+    textDecorationLine: 'underline',
+    border: 'none!important',
+    backgroundColor: 'white!important',
+    cursor: 'pointer',
+    width: '400px'
   },
   text: {
     fontSize: '18px'
@@ -39,42 +46,117 @@ const useStyles = makeStyles({
   }
 })
 
-const ReportNotice = ({ dados }) => {
+const ReportNotice = ({ dados, isUser, setIsDeletedReportedNotice, setIsDeletedReportedUser }) => {
   const classes = useStyles()
-  console.log({ dados })
+  const history = useHistory()
+
+  const onSubmitUser = async aprove => {
+    if (aprove) {
+      await axios
+        .delete(`http://a52ccea0b6b1.ngrok.io/delete/${dados.login_denunciado}`)
+        .then(() => {
+          setIsDeletedReportedUser(true)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    } else {
+      await axios
+        .put('http://a52ccea0b6b1.ngrok.io/avaliarUsuarioDenuncia', {
+          login_denunciante: dados.login_denunciante,
+          login_denunciado: dados.login_denunciado,
+          status: aprove
+        })
+        .then(() => {
+          setIsDeletedReportedUser(true)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  }
+
+  const onSubmitNotice = async aprove => {
+    if (aprove) {
+      await axios
+        .delete(`http://a52ccea0b6b1.ngrok.io/delete?noticia_id=${dados.noticia_id}`)
+        .then(() => {
+          setIsDeletedReportedNotice(true)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    } else {
+      await axios
+        .put('http://a52ccea0b6b1.ngrok.io/denuncia/avaliar', {
+          login: dados.login,
+          noticia_id: dados.noticia_id,
+          status: aprove
+        })
+        .then(() => {
+          setIsDeletedReportedNotice(true)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  }
 
   return (
     <Card className={classes.root}>
       <CardContent>
         <Row alignItems='baseline'>
           <Column mr='5px'>
-            <Typography className={classes.title}>Notícia:</Typography>
+            <Typography className={classes.title}>{isUser ? 'Usuário reportado:' : 'Notícia:'}</Typography>
           </Column>
-          <a className={classes.link} href={dados.link}>
-            {dados.noticia}
-          </a>
+          <Typography className={classes.text}>
+            {isUser && dados?.login_denunciado}
+            {!isUser && (
+              <button
+                type='button'
+                className={classes.link}
+                onClick={() => history.push(`/visualizar-noticia:${dados?.noticia_id}`)}
+              >
+                {dados?.titulo}
+              </button>
+            )}
+          </Typography>
         </Row>
         <Row alignItems='baseline'>
           <Column mr='5px' mt='5px'>
             <Typography className={classes.title}>Motivo da denúncia:</Typography>
+            <Typography className={classes.text}>{dados?.conteudo}</Typography>
           </Column>
-          <Typography className={classes.text}>{dados.motivo}</Typography>
         </Row>
         <Row alignItems='baseline'>
           <Column mr='5px' mt='5px'>
             <Typography className={classes.title}>Denunciante:</Typography>
           </Column>
-          <Typography className={classes.text}>{dados.denunciante}</Typography>
+          <Typography className={classes.text}>{isUser ? dados?.login_denunciante : dados?.login}</Typography>
         </Row>
       </CardContent>
       <Row className={classes.content}>
-        <Typography className={classes.text}>Deletar notícia?</Typography>
+        <Typography className={classes.text}>Deletar {isUser ? 'usuário' : 'notícia'}?</Typography>
       </Row>
       <CardActions className={classes.content}>
-        <Button type='submit' variant='contained' color='primary' onClick={() => console.log('DELETADA')}>
+        <Button
+          type='submit'
+          variant='contained'
+          color='primary'
+          onClick={() => {
+            isUser ? onSubmitUser(true) : onSubmitNotice(true)
+          }}
+        >
           Deletar
         </Button>
-        <Button type='submit' variant='contained' color='primary' onClick={() => console.log('IGNORADA')}>
+        <Button
+          type='submit'
+          variant='contained'
+          color='primary'
+          onClick={() => {
+            isUser ? onSubmitUser(false) : onSubmitNotice(false)
+          }}
+        >
           Ignorar
         </Button>
       </CardActions>
