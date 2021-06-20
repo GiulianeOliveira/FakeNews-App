@@ -49,7 +49,10 @@ const CardSpecialists = ({ dados, setValid }) => {
 
   const onSubmit = async aprove => {
     await axios
-      .put('http://f1ca5156fd21.ngrok.io/avaliar', { login: user.login, noticiaId: noticeId, avaliacao: aprove })
+      .put('http://e060003e3f5e.ngrok.io/promote', {
+        login: dados.login,
+        status: aprove
+      })
       .then(res => {
         console.log(res)
         setValid(true)

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
 import { Typography } from '@material-ui/core'
 import axios from 'axios'
-import { AirlineSeatIndividualSuiteRounded } from '@material-ui/icons'
 import Navbar from '../../components/Navbar'
 import Column from '../../components/Column'
 import Row from '../../components/Row'
@@ -16,11 +16,11 @@ const AnalysisSpecialistRequest = () => {
   const getAccess = async () => {
     // await viewNotice(id)
     await axios
-      .get('http://7472f2cb3d3b.ngrok.io/usuarioacesso')
+      .get('http://e060003e3f5e.ngrok.io/usuarioacesso')
       // eslint-disable-next-line consistent-return
       .then(res => {
         setSolicitacoes(res.data)
-        AirlineSeatIndividualSuiteRounded(false)
+        setValid(false)
       })
       .catch(error => {
         console.log(error)
@@ -48,8 +48,19 @@ const AnalysisSpecialistRequest = () => {
           </Column>
         ))}
       </Column>
+      {solicitacoes.length < 1 && (
+        <Column margin='10% auto' width='400px'>
+          <div align='center'>
+            <FontMessage>Não há avaliações disponíveis.</FontMessage>
+          </div>
+        </Column>
+      )}
     </>
   )
 }
 
 export default AnalysisSpecialistRequest
+
+const FontMessage = styled.p`
+  font-size: larger;
+`
