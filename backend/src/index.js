@@ -21,6 +21,6 @@ app.get("/", (req, res) => {
 console.log("oi")
 
 // set port, listen for requests
-app.listen(3000, () => {
-  console.log("Server is running on port 3000.");
+app.listen(3333, () => {
+  console.log("Server is running on port 3333.");
 });

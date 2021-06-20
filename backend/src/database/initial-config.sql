@@ -77,16 +77,16 @@ INSERT INTO DENUNCIA_USUARIO (login_denunciante, login_denunciado, data, status,
 ('user1','user2', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário'),
 ('user1','user3', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário'),
 ('user2','user1', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário'),
-('user3','user4', '2021-06-15', 'aprovado' , 'Conteúdo da denúncia do usuário'),
-('user2','user8', '2021-06-15', 'reprovado', 'Conteúdo da denúncia do usuário');
+('user3','user4', '2021-06-15', 'em_espera' , 'Conteúdo da denúncia do usuário'),
+('user2','user8', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário');
 
 -- Inserir denuncia notícia
 INSERT INTO DENUNCIA_NOTICIA (login, noticia_id, data_denuncia, status_denuncia, conteudo) VALUES
 ('user1',2 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia'),
 ('user1',3 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia'),
 ('user2',1 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia'),
-('user3',7 , '2021-06-15', 'aprovado' , 'Conteúdo da denúncia da notícia'),
-('user2',5 , '2021-06-15', 'reprovado', 'Conteúdo da denúncia da notícia');
+('user3',7 , '2021-06-15', 'em_espera' , 'Conteúdo da denúncia da notícia'),
+('user2',5 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia');
 
 -- Inserir avaliação especialista
 INSERT INTO AVALIA_ESPECIALISTA_NOTICIA (login, noticia_id, avaliacao) VALUES

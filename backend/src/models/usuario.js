@@ -252,6 +252,75 @@ module.exports = class Usuario {
         }
     }
 
+    static avaliarUsuarioDenunciado(login_denunciante,login_denunciado, status, callback){
+        if(status){
+            sql.query(`UPDATE DENUNCIA_USUARIO SET status = 'aprovado' WHERE login_denunciante = '${login_denunciante}' AND login_denunciado = '${login_denunciado}'`,
+            (err, res) => {
+                if (err) {
+                    callback(
+                        err,
+                        { status: false }
+                    )
+                    return;
+                }
+                if (res) {
+                    if (res.affectedRows) {
+                        callback(
+                            null,
+                            { status: true }
+                        )
+                        return;
+                    } else {
+                        callback(
+                            { message: "A requisição não existe" },
+                            { status: false }
+                        )
+                        return;
+                    }
+
+                }
+                callback(
+                    { message: "Ocorreu um erro ao avaliar usuario" },
+                    { status: false }
+                )
+            });
+            return;
+        }
+        else {
+            sql.query(`UPDATE DENUNCIA_USUARIO SET status = 'reprovado' WHERE login_denunciante = '${login_denunciante}' AND login_denunciado = '${login_denunciado}'`,
+            (err, res) => {
+                if (err) {
+                    callback(
+                        err,
+                        { status: false }
+                    )
+                    return;
+                }
+                if (res) {
+                    if (res.affectedRows) {
+                        callback(
+                            null,
+                            { status: true }
+                        )
+                        return;
+                    } else {
+                        callback(
+                            { message: "A requisição não existe" },
+                            { status: false }
+                        )
+                        return;
+                    }
+
+                }
+                callback(
+                    { message: "Ocorreu um erro ao avaliar usuario" },
+                    { status: false }
+                )
+            });
+            return;
+        }
+    }
+
     static removerUsuario(login,callback){
         sql.query(`DELETE FROM USUARIO WHERE login LIKE BINARY '${login}'`,
         (err,res) =>{

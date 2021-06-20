@@ -1,4 +1,4 @@
-const { buscarLoginESenha } = require("../models/usuario");
+const { buscarLoginESenha, avaliarUsuarioDenunciado } = require("../models/usuario");
 const User = require("../models/usuario");
 
 module.exports = {
@@ -68,6 +68,19 @@ module.exports = {
                 res.status(500).send({
                     message:
                     err.message || "Algum erro ocorreu ao promover usuario."});
+                } else {
+                    res.send(data);
+                } 
+        })
+    },
+
+    async avaliarUsuarioDenunciado(req,res){
+        const { login_denunciante, login_denunciado, status } = req.body;
+        User.avaliarUsuarioDenunciado(login_denunciante, login_denunciado, status, (err, data) => {
+            if (err) {
+                res.status(500).send({
+                    message:
+                    err.message || "Algum erro ocorreu ao avaliar usuario."});
                 } else {
                     res.send(data);
                 } 

@@ -117,8 +117,10 @@ module.exports = class Noticia {
             })
     }
 
+
     static listarsNoticiaDenuncia(callback){
-        sql.query("SELECT * FROM DENUNCIA_NOTICIA WHERE status_denuncia = 'em_espera'", (err, res) => {
+        sql.query("SELECT * FROM DENUNCIA_NOTICIA INNER JOIN NOTICIA ON DENUNCIA_NOTICIA.noticia_id=NOTICIA.noticia_id WHERE status_denuncia = 'em_espera'", 
+        (err, res) => {
             if(err){
                 callback(
                     err, 
@@ -127,9 +129,22 @@ module.exports = class Noticia {
                 return;
             }
             if (res) {
+                let obj = res.map(denuncia => {
+                    return (
+                        {
+                            login: denuncia.login,
+                            noticia_id: denuncia.noticia_id,
+                            titulo: denuncia.titulo,
+                            data_denuncia: denuncia.data_denuncia,
+                            status_denuncia: denuncia.status_denuncia,
+                            conteudo: denuncia.conteudo
+                        }
+                    )
+                })
+
                 callback(
                     null, 
-                    res
+                    obj
                 )
                 return;
             }
@@ -312,8 +327,10 @@ static visualiarComentarios(noticiaId, callback) {
             return;
         });
 }
-static ignorarDenuncia(noticia_id, login, callback) {
-    sql.query(`UPDATE DENUNCIA_NOTICIA SET status_denuncia = 'reprovado' WHERE noticia_id = '${noticia_id}' AND login LIKE BINARY '${login}'`,
+
+static avaliarDenuncia(noticia_id, login, status, callback) {
+    if(status){
+        sql.query(`UPDATE DENUNCIA_NOTICIA SET status_denuncia = 'aprovado' WHERE noticia_id = '${noticia_id}' AND login LIKE BINARY '${login}'`,
         (err, res) => {
             if (err) {
                 callback(
@@ -339,10 +356,44 @@ static ignorarDenuncia(noticia_id, login, callback) {
 
             }
             callback(
-                { message: "Ocorreu um erro ao ignorar a denuncia" },
+                { message: "Ocorreu um erro ao aprovar a denuncia" },
                 { status: false }
             )
         });
+    }
+    else {
+        sql.query(`UPDATE DENUNCIA_NOTICIA SET status_denuncia = 'reprovado' WHERE noticia_id = '${noticia_id}' AND login LIKE BINARY '${login}'`,
+        (err, res) => {
+            if (err) {
+                callback(
+                    err,
+                    { status: false }
+                )
+                return;
+            }
+            if (res) {
+                if (res.affectedRows) {
+                    callback(
+                        null,
+                        { status: true }
+                    )
+                    return;
+                } else {
+                    callback(
+                        { message: "A denuncia não existe" },
+                        { status: false }
+                    )
+                    return;
+                }
+
+            }
+            callback(
+                { message: "Ocorreu um erro ao reprovar a denuncia" },
+                { status: false }
+            )
+        });
+    }
+   
 }
 
 }

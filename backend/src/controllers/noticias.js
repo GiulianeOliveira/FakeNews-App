@@ -119,9 +119,9 @@ module.exports = {
             } 
         });
     },
-    async ignorarDenuncia(req,res){
-        const {noticia_id,login} = req.body;
-        Noticia.ignorarDenuncia(noticia_id, login, (err, data) => { 
+    async avaliarDenuncia(req,res){
+        const {noticia_id,login,status} = req.body;
+        Noticia.avaliarDenuncia(noticia_id, login,status, (err, data) => { 
             if (err) {
             res.status(500).send({
                 message:

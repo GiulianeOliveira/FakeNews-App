@@ -19,6 +19,9 @@ router.post('/signin', UserController.login);
 // promover usuario
 router.put('/promote', UserController.promote)
 
+// avaliar usuario
+router.put('/avaliarUsuarioDenuncia', UserController.avaliarUsuarioDenunciado)
+
 // deleta usuario
 router.delete('/delete/:login', UserController.deletarUsuario);
 

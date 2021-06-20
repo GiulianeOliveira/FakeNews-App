@@ -31,7 +31,8 @@ router.post('/comentarnoticia',NoticiaController.comentarNoticia);
 // visualizar comentários pelo id da noticia
 router.get('/visualizarcomentarios/:noticia_id', NoticiaController.visualizarComentario);
 
-// ignorar uma denuncia da noticia
-router.put('/denuncia/ignorar', NoticiaController.ignorarDenuncia)
+// avaliar uma denuncia da noticia
+router.put('/denuncia/avaliar', NoticiaController.avaliarDenuncia)
+
 
 module.exports = router;
