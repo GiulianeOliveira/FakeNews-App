@@ -17,6 +17,7 @@ SHOW TABLES;
 CREATE TABLE USUARIO (
     login VARCHAR(50) BINARY NOT NULL,
     nome TEXT NOT NULL,
+    sobrenome TEXT NOT NULL,
     senha TEXT NOT NULL,
     email VARCHAR(256) BINARY NOT NULL UNIQUE,
     tipo ENUM('normal', 'admin') DEFAULT 'normal',
@@ -28,59 +29,70 @@ CREATE TABLE USUARIO (
 -- criar tabela denunciaUsuario
 
 CREATE TABLE DENUNCIA_USUARIO (
-    login_denunciante VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO`(`login`),
-    login_denunciado VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO`(`login`),
+    login_denunciante VARCHAR(50) BINARY NOT NULL,
+    login_denunciado VARCHAR(50) BINARY NOT NULL,
     data DATE NOT NULL,
     status ENUM('em_espera', 'aprovado', 'reprovado') DEFAULT "em_espera",
     conteudo TEXT NOT NULL,
-    PRIMARY KEY (`login_denunciante`, `login_denunciado`)
+    PRIMARY KEY (`login_denunciante`, `login_denunciado`),
+    FOREIGN KEY (`login_denunciante`) REFERENCES `USUARIO`(`login`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (`login_denunciado`) REFERENCES `USUARIO`(`login`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
 -- criar tabela notícia
 CREATE TABLE NOTICIA (
     noticia_id INT AUTO_INCREMENT,
-    login VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO` (`login`),
+    login VARCHAR(50) BINARY NOT NULL,
     titulo TEXT NOT NULL,
     imagem TEXT,
     descricao TEXT,
-    PRIMARY KEY (`noticia_id`)
+    PRIMARY KEY (`noticia_id`),
+    FOREIGN KEY (`login`) REFERENCES `USUARIO`(`login`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- criar tabela denunciaNoticia
 CREATE TABLE DENUNCIA_NOTICIA (
-    login VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO` (`login`),
-    noticia_id INT NOT NULL REFERENCES `NOTICIA` (`noticia_id`),
+    login VARCHAR(50) BINARY NOT NULL,
+    noticia_id INT NOT NULL,
     data_denuncia DATE NOT NULL,
     status_denuncia ENUM('em_espera', 'aprovado', 'reprovado') DEFAULT "em_espera",
     conteudo TEXT NOT NULL,
-    PRIMARY KEY (`login`,`noticia_id`)  
+    PRIMARY KEY (`login`,`noticia_id`),
+    FOREIGN KEY (`login`) REFERENCES `USUARIO`(`login`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (`noticia_id`) REFERENCES `NOTICIA` (`noticia_id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- criar tabela comentário
 CREATE TABLE COMENTARIO (
     sequencia INT NOT NULL,
-    noticia_id INT NOT NULL REFERENCES `NOTICIA` (`noticia_id`),
-    login VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO` (`login`),
+    noticia_id INT NOT NULL,
+    login VARCHAR(50) BINARY NOT NULL,
     data DATETIME NOT NULL,
     conteudo TEXT NOT NULL,
-    PRIMARY KEY (`sequencia`,`noticia_id`,`login`)
+    PRIMARY KEY (`sequencia`,`noticia_id`,`login`),
+    FOREIGN KEY (`login`) REFERENCES `USUARIO`(`login`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (`noticia_id`) REFERENCES `NOTICIA` (`noticia_id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
 CREATE TABLE AVALIA_ESPECIALISTA_NOTICIA (
-    login VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO` (`login`),
-    noticia_id INT NOT NULL REFERENCES `NOTICIA` (`noticia_id`),
+    login VARCHAR(50) BINARY NOT NULL,
+    noticia_id INT NOT NULL,
     avaliacao ENUM('fato', 'fake') DEFAULT "fake",
-    PRIMARY KEY (`login`, `noticia_id`)
+    PRIMARY KEY (`login`, `noticia_id`),
+    FOREIGN KEY (`login`) REFERENCES `USUARIO`(`login`) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (`noticia_id`) REFERENCES `NOTICIA` (`noticia_id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE REQUISICAO_ESPECIALISTA (
-    login VARCHAR(50) BINARY NOT NULL REFERENCES `USUARIO` (`login`),
+    login VARCHAR(50) BINARY NOT NULL,
     formacao TEXT NOT NULL,
-    certificado BLOB NOT NULL,
+    descricao TEXT NOT NULL,
+    certificado text NOT NULL,
     status ENUM('em_espera', 'aprovado', 'reprovado') DEFAULT "em_espera",
-    PRIMARY KEY (`login`)
+    PRIMARY KEY (`login`),
+    FOREIGN KEY (`login`) REFERENCES `USUARIO`(`login`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 

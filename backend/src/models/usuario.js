@@ -2,8 +2,9 @@ const sql = require("../database/connection");
 const bcrypt = require('bcrypt');
 
 module.exports = class Usuario {
-    constructor(nome, login, senha, email){
+    constructor(nome,sobrenome, login, senha, email){
         this.nome = nome;
+        this.sobrenome = sobrenome;
         this.login = login;
         this.senha = senha;
         this.email = email;
@@ -15,8 +16,8 @@ module.exports = class Usuario {
     criarUsuario(callback){
 /*         const senha_criptografada = bcrypt.hashSync(this.senha, 10); */
         const senha_criptografada = this.senha;
-        sql.query("INSERT INTO USUARIO (nome, login, senha, email, especialista) VALUES (?,?,?,?,?)", 
-        [this.nome, this.login, senha_criptografada, this.email, 0], (err, res) => {
+        sql.query("INSERT INTO USUARIO (nome, sobrenome, login, senha, email, especialista) VALUES (?,?,?,?,?,?)", 
+        [this.nome, this.sobrenome, this.login, senha_criptografada, this.email, 0], (err, res) => {
             if(err) {
                 callback(err, null);
                 return;
@@ -26,7 +27,8 @@ module.exports = class Usuario {
                     null, 
                     {
                     login: this.login,
-                    nome: this.nome
+                    nome: this.nome,
+                    sobrenome: this.sobrenome
                     }
                 );  
                 return;
@@ -47,6 +49,7 @@ module.exports = class Usuario {
                 const obj =  {
                     login: res[0].login,
                     nome: res[0].nome,
+                    sobrenome: res[0].sobrenome,
                     email: res[0].email,
                     tipo: res[0].tipo,
                     especialista: res[0].especialista[0] ? true : false
@@ -80,6 +83,7 @@ module.exports = class Usuario {
                             status: true,
                             login: res[0].login,
                             nome: res[0].nome,
+                            sobrenome: res[0].sobrenome,
                             email: res[0].email,
                             tipo: res[0].tipo,
                             especialista: res[0].especialista[0] ? true : false
@@ -109,19 +113,51 @@ module.exports = class Usuario {
     }
 
 // Alterar login e senha
-    static alterarPerfilUsuario (nome, login, email, senha, novoLogin, callback){
+    static alterarPerfilUsuario (nome, sobrenome, login, email, senha, novoLogin, callback){
         // caso queira alterar o login, a funcao nao funciona
-        sql.query(`UPDATE USUARIO SET nome = '${nome}', email = '${email}', senha = '${senha}', login = '${novoLogin}' WHERE login LIKE BINARY '${login}'`,
+        sql.query(`UPDATE USUARIO SET nome = '${nome}', sobrenome = '${sobrenome}', email = '${email}', senha = '${senha}', login = '${novoLogin}' WHERE login LIKE BINARY '${login}'`,
         (err, res) => {
             if(err){
                 console.log("error: ", err);
                 callback(err, null);
                 return;
             }
-            if (res){
-                callback(null, {
-                    status: true
-                })
+            if (res != undefined){
+                sql.query(`SELECT * FROM USUARIO WHERE login LIKE BINARY '${novoLogin}'`, (err, res) => {
+                    if(err){
+                        callback(err, {
+                            status: false
+                        });
+                        return;
+                    }
+                    if(res){  
+                        if (res[0] != undefined){
+                            callback(
+                                null, 
+                                {
+                                    status: true,
+                                    login: res[0].login,
+                                    nome: res[0].nome,
+                                    sobrenome: res[0].sobrenome,
+                                    email: res[0].email,
+                                    tipo: res[0].tipo,
+                                    especialista: res[0].especialista[0] ? true : false
+                                }
+                            )                            
+                        }else{
+                            callback(
+                                {message: "Usuario não encontrado"}, {
+                                status: false
+                            });
+                        }
+                        
+                        return;
+                    }
+                    callback(
+                        {message: "Usuario não encontrado"}, 
+                        {status: false}
+                    );
+                });
                 return;
             }
             callback(
@@ -131,27 +167,89 @@ module.exports = class Usuario {
         });
     }
 
-    static promoverUsuario(login, callback){
-        sql.query(`UPDATE USUARIO SET especialista = 1 WHERE login LIKE BINARY '${login}'`,
-        (err, res) => {
-            if(err) {
-                console.log("error: ", err);
-                callback(err, {
-                    status: false
-                })
-                return;
-            }
-            if (res) {
-                callback(null, {
-                    status: true}
+    static promoverUsuario(login, status, callback){
+        if(status){
+            sql.query(`UPDATE USUARIO SET especialista = 1 WHERE login LIKE BINARY '${login}'`,
+            (err, res) => {
+                if(err) {
+                    console.log("error: ", err);
+                    callback(err, {
+                        status: false
+                    })
+                    return;
+                }
+                if (res) {
+                    sql.query(`UPDATE REQUISICAO_ESPECIALISTA SET status = 'aprovado' WHERE login LIKE BINARY '${login}'`,
+                    (err, res) => {
+                        if (err) {
+                            callback(
+                                err,
+                                { status: false }
+                            )
+                            return;
+                        }
+                        if (res) {
+                            if (res.affectedRows) {
+                                callback(
+                                    null,
+                                    { status: true }
+                                )
+                                return;
+                            } else {
+                                callback(
+                                    { message: "A requisição não existe" },
+                                    { status: false }
+                                )
+                                return;
+                            }
+
+                        }
+                        callback(
+                            { message: "Ocorreu um erro ao promover usuario" },
+                            { status: false }
+                        )
+                    });
+                    return;
+                }
+                callback(
+                    {message: "Erro ao promover usuário"}, 
+                    {status: false}
                 )
-                return;
-            }
-            callback(
-                {message: "Erro ao promover usuário"}, 
-                {status: false}
-            )
-        })
+            })
+        }
+        else {
+            sql.query(`UPDATE REQUISICAO_ESPECIALISTA SET status = 'reprovado' WHERE login LIKE BINARY '${login}'`,
+            (err, res) => {
+                if (err) {
+                    callback(
+                        err,
+                        { status: false }
+                    )
+                    return;
+                }
+                if (res) {
+                    if (res.affectedRows) {
+                        callback(
+                            null,
+                            { status: true }
+                        )
+                        return;
+                    } else {
+                        callback(
+                            { message: "A requisição não existe" },
+                            { status: false }
+                        )
+                        return;
+                    }
+
+                }
+                callback(
+                    { message: "Ocorreu um erro ao promover usuario" },
+                    { status: false }
+                )
+            });
+            return;
+        }
     }
 
     static removerUsuario(login,callback){
@@ -228,9 +326,9 @@ module.exports = class Usuario {
         return {message: "Done"};
     }
 
-    static solicitarPromocao(login, formacao, certificado, callback){
-        sql.query("INSERT INTO REQUISICAO_ESPECIALISTA (login, formacao, certificado) VALUES (?,?,?)", 
-        [login, formacao, certificado], (err, res) => {
+    static solicitarPromocao(login, formacao, descricao, certificado, callback){
+        sql.query("INSERT INTO REQUISICAO_ESPECIALISTA (login, formacao, descricao ,certificado) VALUES (?,?,?,?)", 
+        [login, formacao, descricao, certificado], (err, res) => {
             if(err){
                 callback(
                     err, 

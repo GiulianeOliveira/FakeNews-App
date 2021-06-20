@@ -11,7 +11,7 @@ router.post('/user', UserController.criarUsuario);
 router.get('/user/:login', UserController.buscaPorLogin);
 
 // altera o prefil de um usuário
-router.patch('/user', UserController.alterarPerfil);
+router.put('/user', UserController.alterarPerfil);
 
 // autentifica login
 router.post('/signin', UserController.login);

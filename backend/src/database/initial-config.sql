@@ -3,24 +3,24 @@
 USE FAKENEWSAPP;
 
 -- Inserir adiministradores
-INSERT INTO USUARIO (login, nome, senha, email, tipo, especialista) VALUES
-('andressa.werner', 'Andressa', '123', 'awkpereira@inf.ufpel.edu.br', 'admin', 0),
-('giu.oliveira', 'Giuliane', '123', 'giuzinha@inf.ufpel.edu.br', 'admin', 0),
-('gianlucca', 'Gianlucca', '123', 'gianlucca@inf.ufpel.edu.br', 'admin', 0),
-('joao', 'João', '123', 'joao@inf.ufpel.edu.br', 'admin', 0),
-('vitor.pinho', 'Vitor', '123', 'vwpinho@inf.ufpel.edu.br', 'admin', 0),
-('igor.rosler', 'Igor', '123', 'idsrosler@inf.ufpel.edu.br', 'admin', 0);
+INSERT INTO USUARIO (login, nome, sobrenome, senha, email, tipo, especialista) VALUES
+('andressa.werner', 'Andressa','Werner', '123', 'awkpereira@inf.ufpel.edu.br', 'admin', 0),
+('giu.oliveira', 'Giuliane','Oliveira', '123', 'giuzinha@inf.ufpel.edu.br', 'admin', 0),
+('gianlucca', 'Gianlucca','Buzo', '123', 'gianlucca@inf.ufpel.edu.br', 'admin', 0),
+('joao', 'João','Barth', '123', 'joao@inf.ufpel.edu.br', 'admin', 0),
+('vitor.pinho', 'Vitor','Pinho', '123', 'vwpinho@inf.ufpel.edu.br', 'admin', 0),
+('igor.rosler', 'Igor','Rosler', '123', 'idsrosler@inf.ufpel.edu.br', 'admin', 0);
 
 -- Inserir usuários normais
-INSERT INTO USUARIO (login, nome, senha, email, tipo, especialista) VALUES
-('user1', 'Usuário 1', '123', 'user1@inf.ufpel.edu.br', 'normal', 1),
-('user2', 'Usuário 2', '123', 'user2@inf.ufpel.edu.br', 'normal', 1),
-('user3', 'Usuário 3', '123', 'user3@inf.ufpel.edu.br', 'normal', 1),
-('user4', 'Usuário 4', '123', 'user4@inf.ufpel.edu.br', 'normal', 1),
-('user5', 'Usuário 5', '123', 'user5@inf.ufpel.edu.br', 'normal', 0),
-('user6', 'Usuário 6', '123', 'user6@inf.ufpel.edu.br', 'normal', 0),
-('user7', 'Usuário 7', '123', 'user7@inf.ufpel.edu.br', 'normal', 0),
-('user8', 'Usuário 8', '123', 'user8@inf.ufpel.edu.br', 'normal', 0);
+INSERT INTO USUARIO (login, nome, sobrenome, senha, email, tipo, especialista) VALUES
+('user1', 'Usuário 1', 'Teste', '123', 'user1@inf.ufpel.edu.br', 'normal', 1),
+('user2', 'Usuário 2', 'Teste', '123', 'user2@inf.ufpel.edu.br', 'normal', 1),
+('user3', 'Usuário 3', 'Teste', '123', 'user3@inf.ufpel.edu.br', 'normal', 1),
+('user4', 'Usuário 4', 'Teste', '123', 'user4@inf.ufpel.edu.br', 'normal', 1),
+('user5', 'Usuário 5', 'Teste', '123', 'user5@inf.ufpel.edu.br', 'normal', 0),
+('user6', 'Usuário 6', 'Teste', '123', 'user6@inf.ufpel.edu.br', 'normal', 0),
+('user7', 'Usuário 7', 'Teste', '123', 'user7@inf.ufpel.edu.br', 'normal', 0),
+('user8', 'Usuário 8', 'Teste', '123', 'user8@inf.ufpel.edu.br', 'normal', 0);
 
 -- Inserir noticias
 INSERT INTO NOTICIA (login, titulo, imagem, descricao) VALUES
@@ -102,12 +102,12 @@ INSERT INTO AVALIA_ESPECIALISTA_NOTICIA (login, noticia_id, avaliacao) VALUES
 ('user4',5 , 'fake');
 
 -- Inserir arequisição especialista
-INSERT INTO REQUISICAO_ESPECIALISTA (login, formacao, certificado, status) VALUES
-('user1', 'artes', x'89504E470D0A1A0A0000000D494844520000001000000010080200000090916836000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000001E49444154384F6350DAE843126220493550F1A80662426C349406472801006AC91F1040F796BD0000000049454E44AE426082', 'aprovado'),
-('user2', 'artes', x'89504E470D0A1A0A0000000D494844520000001000000010080200000090916836000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000001E49444154384F6350DAE843126220493550F1A80662426C349406472801006AC91F1040F796BD0000000049454E44AE426082',  'aprovado'),
-('user3', 'artes', x'89504E470D0A1A0A0000000D494844520000001000000010080200000090916836000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000001E49444154384F6350DAE843126220493550F1A80662426C349406472801006AC91F1040F796BD0000000049454E44AE426082', 'aprovado'),
-('user4', 'artes', x'89504E470D0A1A0A0000000D494844520000001000000010080200000090916836000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000001E49444154384F6350DAE843126220493550F1A80662426C349406472801006AC91F1040F796BD0000000049454E44AE426082', 'aprovado'),
-('user5', 'artes', x'89504E470D0A1A0A0000000D494844520000001000000010080200000090916836000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000001E49444154384F6350DAE843126220493550F1A80662426C349406472801006AC91F1040F796BD0000000049454E44AE426082', 'em_espera'),
-('user6', 'artes', x'89504E470D0A1A0A0000000D494844520000001000000010080200000090916836000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000001E49444154384F6350DAE843126220493550F1A80662426C349406472801006AC91F1040F796BD0000000049454E44AE426082', 'em_espera'),
-('user7', 'artes', x'89504E470D0A1A0A0000000D494844520000001000000010080200000090916836000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000001E49444154384F6350DAE843126220493550F1A80662426C349406472801006AC91F1040F796BD0000000049454E44AE426082', 'em_espera'),
-('user8', 'artes', x'89504E470D0A1A0A0000000D494844520000001000000010080200000090916836000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000001E49444154384F6350DAE843126220493550F1A80662426C349406472801006AC91F1040F796BD0000000049454E44AE426082', 'reprovado');
+INSERT INTO REQUISICAO_ESPECIALISTA (login, formacao, descricao, certificado, status) VALUES
+('user1', 'artes', "Descrição da requisição", 'https://drive.google.com/file/d/1G8M8nDmFkt2Gs30_uYpINmJmou-Fm6qB/view', 'aprovado'),
+('user2', 'artes', "Descrição da requisição", 'https://drive.google.com/file/d/1G8M8nDmFkt2Gs30_uYpINmJmou-Fm6qB/view',  'aprovado'),
+('user3', 'artes', "Descrição da requisição", 'https://drive.google.com/file/d/1G8M8nDmFkt2Gs30_uYpINmJmou-Fm6qB/view', 'aprovado'),
+('user4', 'artes', "Descrição da requisição", 'https://drive.google.com/file/d/1G8M8nDmFkt2Gs30_uYpINmJmou-Fm6qB/view', 'aprovado'),
+('user5', 'artes', "Descrição da requisição", 'https://drive.google.com/file/d/1G8M8nDmFkt2Gs30_uYpINmJmou-Fm6qB/view', 'em_espera'),
+('user6', 'artes', "Descrição da requisição", 'https://drive.google.com/file/d/1G8M8nDmFkt2Gs30_uYpINmJmou-Fm6qB/view', 'em_espera'),
+('user7', 'artes', "Descrição da requisição", 'https://drive.google.com/file/d/1G8M8nDmFkt2Gs30_uYpINmJmou-Fm6qB/view', 'em_espera'),
+('user8', 'artes', "Descrição da requisição", 'https://drive.google.com/file/d/1G8M8nDmFkt2Gs30_uYpINmJmou-Fm6qB/view', 'reprovado');

@@ -143,7 +143,11 @@ module.exports = class Noticia {
 
 // Adicionar Avaliações positivas e negativas (Porcentagem)
     static buscarNoticiaID(noticia_id, callback){
-        sql.query(`SELECT * FROM NOTICIA WHERE noticia_id LIKE BINARY '${ noticia_id }'`,
+        sql.query(`SELECT y.*  FROM (SELECT x.*, COUNT(avaliacao) AS avaliacaoN FROM 
+        (SELECT NOTICIA.*, COUNT(avaliacao) AS avaliacaoP FROM NOTICIA LEFT JOIN AVALIA_ESPECIALISTA_NOTICIA ON 
+        AVALIA_ESPECIALISTA_NOTICIA.noticia_id = NOTICIA.noticia_id AND avaliacao = 'fato' GROUP BY noticia_id)x 
+        LEFT JOIN AVALIA_ESPECIALISTA_NOTICIA ON AVALIA_ESPECIALISTA_NOTICIA.noticia_id = x.noticia_id AND avaliacao = 'fake' 
+        GROUP BY noticia_id)y WHERE y.noticia_id = ${noticia_id};`,
             (err, res) => {
                 if (err) {
                     callback(
@@ -153,9 +157,21 @@ module.exports = class Noticia {
                     return;
                 }
                 if (res) {
+                    let percetOfP = 50
+                    let percetOfN = 50
+
+                    if( res[0].avaliacaoP != 0 || res[0].avaliacaoN != 0){
+                        percetOfP = (res[0].avaliacaoP*100)/(res[0].avaliacaoP + res[0].avaliacaoN)
+                        percetOfN = (res[0].avaliacaoN*100)/(res[0].avaliacaoP + res[0].avaliacaoN)
+                    }
+
                     callback(
                         null,
-                        res[0]
+                        {
+                            ...res[0],
+                            percetOfP: percetOfP,
+                            percentofN: percetOfN
+                        }
                     )
                     return;
                 }
@@ -264,7 +280,7 @@ module.exports = class Noticia {
     }
 
 static visualiarComentarios(noticiaId, callback) {
-    sql.query(`UPDATE DENUNCI_NOTICIA SET especialista = 1 WHERE noticia_id = ${noticiaId}`,
+    sql.query(`SELECT * FROM COMENTARIO WHERE noticia_id = ${noticiaId}`,
         (err, res) => {
             if (err) {
                 callback(
@@ -330,4 +346,3 @@ static ignorarDenuncia(noticia_id, login, callback) {
 }
 
 }
-

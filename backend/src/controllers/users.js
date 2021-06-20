@@ -3,9 +3,9 @@ const User = require("../models/usuario");
 
 module.exports = {
     async criarUsuario(req, res) {
-        const { nome, login, senha, email } = req.body;
+        const { nome, sobrenome, login, senha, email } = req.body;
         // console.log(nome, "conhecido como: ", login, " que usa o e-mail: ", email);
-        const usuario = new User(nome, login, senha, email);
+        const usuario = new User(nome, sobrenome, login, senha, email);
         
         usuario.criarUsuario((err, data) => {
             if (err) {
@@ -32,9 +32,9 @@ module.exports = {
     },
 
     async alterarPerfil (req, res){
-        const {nome, login, email, senha, novo_login } = req.body;
+        const {nome, sobrenome, login, email, senha, novo_login } = req.body;
     
-        User.alterarPerfilUsuario(nome, login, email, senha, novo_login, (err, data) => { 
+        User.alterarPerfilUsuario(nome, sobrenome, login, email, senha, novo_login, (err, data) => { 
             if (err) {
             res.status(500).send({
                 message:
@@ -62,8 +62,8 @@ module.exports = {
     },
 
     async promote(req,res){
-        const { login } = req.body;
-        User.promoverUsuario(login, (err, data) => {
+        const { login, status } = req.body;
+        User.promoverUsuario(login, status, (err, data) => {
             if (err) {
                 res.status(500).send({
                     message:
@@ -117,9 +117,9 @@ module.exports = {
 
     async pedirPromocao(req, res){
         const login = req.query.login;
-        const {formacao, certificado} = req.body;
+        const {formacao, descricao, certificado} = req.body;
         
-        User.solicitarPromocao(login, formacao, certificado, (err, data) => {
+        User.solicitarPromocao(login, formacao, descricao, certificado, (err, data) => {
             if (err) {
                 res.status(500).send({
                 message:
