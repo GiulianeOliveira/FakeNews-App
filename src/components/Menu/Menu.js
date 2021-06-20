@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -12,7 +12,7 @@ import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
 import WarningIcon from '@material-ui/icons/Warning'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import Row from '../Row'
-import { useUser } from '../../context/userContext'
+import { AuthContext } from '../../AuthProvider'
 
 const StyledMenu = withStyles({
   paper: {
@@ -45,10 +45,10 @@ const StyledMenuItem = withStyles(theme => ({
   }
 }))(MenuItem)
 
-export default function CustomizedMenus() {
+export default function CustomizedMenus({ setUser }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const history = useHistory()
-  const user = useUser()
+  const [user] = useContext(AuthContext)
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -64,6 +64,10 @@ export default function CustomizedMenus() {
         Menu
       </Button>
       <StyledMenu id='customized-menu' anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+        <div align='center'>
+          <ListItemText primary={`${user.login}`} secondary={user.especialista ? 'Especialista' : ' '} />
+        </div>
+
         <StyledMenuItem onClick={() => history.push('/nova-noticia')}>
           <ListItemIcon>
             <PostAddIcon />
@@ -77,7 +81,7 @@ export default function CustomizedMenus() {
           <ListItemText primary='Perfil' />
         </StyledMenuItem>
 
-        {user.type === 'comum' && (
+        {user.tipo === 'normal' && !user.especialista && (
           <StyledMenuItem onClick={() => history.push('/solicitar-acesso')}>
             <ListItemIcon>
               <AssignmentIndIcon />
@@ -86,7 +90,7 @@ export default function CustomizedMenus() {
           </StyledMenuItem>
         )}
 
-        {user.type === 'admin' && (
+        {user.tipo === 'admin' && (
           <StyledMenuItem>
             <ListItemIcon>
               <WarningIcon />
@@ -94,12 +98,26 @@ export default function CustomizedMenus() {
             <ListItemText primary='Denúncias (admin)' onClick={() => history.push('/admin-denuncias')} />
           </StyledMenuItem>
         )}
+        {user.tipo === 'admin' && (
+          <StyledMenuItem>
+            <ListItemIcon>
+              <WarningIcon />
+            </ListItemIcon>
+            <ListItemText primary='Solicitações' onClick={() => history.push('/solicitacoes')} />
+          </StyledMenuItem>
+        )}
 
         <StyledMenuItem>
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
-          <ListItemText primary='Sair' />
+          <ListItemText
+            primary='Sair'
+            onClick={() => {
+              setUser(false)
+              history.push('/login')
+            }}
+          />
         </StyledMenuItem>
       </StyledMenu>
     </Row>

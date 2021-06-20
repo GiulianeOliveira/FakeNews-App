@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
+// import { getNotices } from '../../services'
 // import { Button } from '@material-ui/core'
 import { Typography } from '@material-ui/core'
 import CardNotice from '../../components/CardNotice'
 import Column from '../../components/Column'
 import Navbar from '../../components/Navbar'
-
+// import { AuthContext } from '../../AuthProvider'
 /* Fazer o feed utilizar useEffect para atualizar sempre que houver notícias novas */
 // dados mockados
 
@@ -14,14 +15,10 @@ const Home = () => {
   const history = useHistory()
   const [notices, setNotices] = useState([])
 
-  setTimeout(() => {
-    console.log('RELOAD')
-    window.location.reload(1)
-  }, 180000)
-
   const getNotice = async () => {
     await axios
-      .get('http://42bde8b9e312.ngrok.io/visualizarnoticia')
+      .get('http://f1ca5156fd21.ngrok.io/visualizarnoticia')
+      // getNotices()
       // eslint-disable-next-line consistent-return
       .then(res => {
         if (res.status === 200) {
@@ -39,8 +36,8 @@ const Home = () => {
 
   return (
     <>
-      <Navbar />
-      <Column width='40%' {...{ maxWidth: 980 }} margin='auto' as='form'>
+      <Navbar setNotices={setNotices} />
+      <Column width='40%' {...{ maxWidth: 980 }} margin='auto' as='form' marginBottom='300px'>
         <Typography variant='h4' align='center'>
           Feed de notícias
         </Typography>
@@ -51,8 +48,9 @@ const Home = () => {
             title={noticia.titulo}
             description={noticia.descricao}
             image={noticia.imagem}
-            positiva={noticia.avaliacaoP}
-            negativa={noticia.avaliacaoN}
+            positiva={noticia.percentofN}
+            negativa={noticia.percetOfP}
+            noticeId={noticia.noticia_id}
           />
         ))}
       </Column>

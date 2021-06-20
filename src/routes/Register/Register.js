@@ -1,27 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import { TextField, Typography, Button, Checkbox, FormControlLabel } from '@material-ui/core'
 import axios from 'axios'
+// import { newUser } from '../../services/requests'
 import Wrapper from '../../components/Wrapper'
 import Row from '../../components/Row'
 import Column from '../../components/Column'
 import Navbar from '../../components/Navbar'
+import { AuthContext } from '../../AuthProvider'
 
 const Register = ({ dados }) => {
   // console.log(dados, '<<<<<<<<<<<<<<<<<<<<<<<<<<')
   const [showPassword, setShowPassword] = useState(false)
+  const [user, setUser] = useContext(AuthContext)
   const history = useHistory()
   const { register, handleSubmit, setValue } = useForm()
 
   const onSubmit = async data => {
-    if (!dados?.id) {
-      const completeName = `${data.firstName} ${data.lastName}`
+    if (!dados) {
       // se não houver id de usuário é porque é um novo cadastro
       console.log('NOVO USUÁRIO', data)
+      // await newUser(completeName, data)
       await axios
-        .post('http://2b2326f7730e.ngrok.io/user', {
-          nome: completeName,
+        .post('http://f1ca5156fd21.ngrok.io/user', {
+          nome: data.firstName,
+          sobrenome: data.lastName,
           login: data.userName,
           senha: data.userPassword,
           email: data.email
@@ -30,27 +34,29 @@ const Register = ({ dados }) => {
           if (res.status === 200) {
             history.push('/login')
           }
-          console.log(res.data)
         })
         .catch(error => {
           console.log(error)
         })
     } else {
       // editar dados de  usuário já existente
-      console.log('EDITAR USUÁRIO', data)
-      const completeName = data.firstName && data.lastName ? `${data.firstName} ${data.lastName}` : dados.nome
+      // await editUser()
+      // console.log('EDITAR USUÁRIO', data)
       await axios
-        .put('http://2b2326f7730e.ngrok.io/user', {
-          nome: completeName,
-          login: data.userName ? data.userName : dados.login,
+        .put('http://f1ca5156fd21.ngrok.io/user', {
+          nome: data.firstName,
+          sobrenome: data.lastName,
+          login: user.login,
+          novo_login: data.userName ? data.userName : dados.login,
           senha: data.userPassword ? data.userPassword : dados.senha,
           email: data.email ? data.email : dados.email
         })
         .then(res => {
           if (res.status === 200) {
-            history.push('/login')
+            setUser(res.data)
+            history.push('/home')
           }
-          console.log(res.data)
+          console.log(user)
         })
         .catch(error => {
           console.log(error)
@@ -59,10 +65,10 @@ const Register = ({ dados }) => {
   }
   return (
     <div>
-      {dados?.id && <Navbar />}
+      {dados && <Navbar />}
       <Wrapper width='35%' {...{ maxWidth: 980 }} margin='6% auto' as='form' onSubmit={handleSubmit(onSubmit)}>
         <Typography variant='h3' align='center'>
-          {dados?.id ? 'Editar perfil' : 'Cadastro'}
+          {dados ? 'Editar perfil' : 'Cadastro'}
         </Typography>
         <Row mt='5%' justifyContent='center'>
           <Column mr='7%'>

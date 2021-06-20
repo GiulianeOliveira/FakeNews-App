@@ -1,18 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Register from '../Register'
+import { AuthContext } from '../../AuthProvider'
 
 const Profile = () => {
-  const dadosTeste = {
-    nome: 'Giuliane',
-    sobrenome: 'Oliveira',
-    email: 'giuliane.oliveira@hotmail.com',
-    login: 'Giuliane',
-    senha: '12345',
-    id: '9999'
-  }
-  // fazer uma request get User
-  console.log('teste')
-  return <Register dados={dadosTeste} />
+  const [user] = useContext(AuthContext)
+  return <Register dados={user} />
 }
 
 export default Profile

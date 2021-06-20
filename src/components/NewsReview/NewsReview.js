@@ -1,46 +1,90 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
+import axios from 'axios'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt'
 import Row from '../Row'
 import Column from '../Column'
 import { StyledTypography } from '../../helpers/styles'
+import { AuthContext } from '../../AuthProvider'
 
-const NewsReview = () => {
-  const user = { admin: true, normal: false }
+const NewsReview = ({ positiva, negativa, noticeId }) => {
+  const [user] = useContext(AuthContext)
+  const [isVote, setVote] = useState(false)
+  const [oldVote, setOldVote] = useState(false)
+
+  const onSubmit = async voto => {
+    await axios
+      .put('http://f1ca5156fd21.ngrok.io/avaliar', { login: user.login, noticiaId: noticeId, avaliacao: voto })
+      .then(res => {
+        console.log(res)
+        setVote(true)
+      })
+      .catch(error => {
+        if (error.message === 'Request failed with status code 500') {
+          setOldVote(true)
+        }
+      })
+  }
 
   return (
-    <Row alignItems='center' padding='0px 10px'>
-      {user.admin && (
-        <Row>
-          <Column mr='16px'>
+    <Column margin='auto'>
+      {user.especialista && (
+        <Row justifyContent='center'>
+          <Column mr='100px'>
             <Row alignItems='center'>
-              <StyledTypography>É fato</StyledTypography>
-              <ThumbUpAltIcon />
-              <StyledTypography>5</StyledTypography>
+              <Column mr='5px'>
+                <button
+                  type='submit'
+                  onClick={event => {
+                    event.preventDefault()
+                    onSubmit('fato')
+                  }}
+                >
+                  <Row alignItems='center'>
+                    <Column mr='10px'>
+                      <StyledTypography>{oldVote ? 'Já votou' : 'É fato'}</StyledTypography>
+                    </Column>
+                    {isVote ? <StyledTypography>{positiva}%</StyledTypography> : <ThumbUpAltIcon />}
+                    {oldVote && <StyledTypography>{positiva}%</StyledTypography>}
+                  </Row>
+                </button>
+              </Column>
             </Row>
           </Column>
-          <Row alignItems='center'>
-            <StyledTypography>É fake</StyledTypography>
-            <ThumbDownAltIcon />
-            <StyledTypography>25</StyledTypography>
-          </Row>
+          <Column mr='100px'>
+            <Row alignItems='center'>
+              <Column mr='5px'>
+                <button
+                  type='submit'
+                  onClick={event => {
+                    event.preventDefault()
+                    onSubmit('fake')
+                  }}
+                >
+                  <Row alignItems='center'>
+                    <Column mr='10px'>
+                      <StyledTypography>{oldVote ? 'Já votou' : 'É fake'}</StyledTypography>
+                    </Column>
+                    {isVote ? <StyledTypography>{negativa}%</StyledTypography> : <ThumbDownAltIcon />}
+                    {oldVote && <StyledTypography>{negativa}%</StyledTypography>}
+                  </Row>
+                </button>
+              </Column>
+            </Row>
+          </Column>
         </Row>
       )}
-      {user.normal && (
-        <>
-          <Column mr='16px'>
-            <Row>
-              <StyledTypography>5 especialistas confirmam que esta notícia é fato.</StyledTypography>
-            </Row>
-          </Column>
+      {!user.especialista && (
+        <Column mr='16px'>
           <Row>
-            <StyledTypography>25 especialistas confirmam que esta notícia é fake.</StyledTypography>
+            <StyledTypography>{positiva}% dos especialistas confirmam que esta notícia é fato.</StyledTypography>
           </Row>
-        </>
+          <Row>
+            <StyledTypography>{negativa}% dos especialistas confirmam que esta notícia é fake.</StyledTypography>
+          </Row>
+        </Column>
       )}
-
-      {/*  */}
-    </Row>
+    </Column>
   )
 }
 

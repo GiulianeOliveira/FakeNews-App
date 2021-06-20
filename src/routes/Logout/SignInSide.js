@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import {
@@ -15,6 +15,8 @@ import {
   makeStyles
 } from '@material-ui/core/'
 import axios from 'axios'
+// import { login } from '../../services/requests'
+import { AuthContext } from '../../AuthProvider'
 import { Logo } from '../../theme/styles'
 import FakeNewsLogo from '../../assets/images/FakeNewsLogo.png'
 
@@ -64,19 +66,19 @@ const useStyles = makeStyles(theme => ({
 export default function SignInSide() {
   const classes = useStyles()
   const history = useHistory()
+  const [, setUser] = useContext(AuthContext)
   const { register, handleSubmit, setValue } = useForm()
   const [showPassword, setShowPassword] = useState(false)
 
   const onSubmit = async data => {
-    console.log(data)
+    // await login(data)
+    // setUser(data)
+    // history.push('/home')
     await axios
-      .post('http://2b2326f7730e.ngrok.io/signin', { login: data.userName, senha: data.password })
+      .post('http://7472f2cb3d3b.ngrok.io/signin', { login: data.userName, senha: data.password })
       .then(res => {
-        if (res.status === 200) {
-          history.push('/home')
-        }
-        console.log(res.data)
-        // Recebo o status, login, especialista, nome, tipo e email
+        setUser(res.data)
+        history.push('/home')
       })
       .catch(error => {
         console.log(error)

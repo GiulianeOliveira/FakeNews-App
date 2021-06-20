@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import { TextField, Typography, Button } from '@material-ui/core'
 import axios from 'axios'
+// import { postNotice } from '../../services'
 import Wrapper from '../../components/Wrapper'
 import Row from '../../components/Row'
 import Navbar from '../../components/Navbar'
@@ -14,8 +15,10 @@ const NewNotice = () => {
 
   const onSubmit = async data => {
     console.log('NOVA NOTÍCIA', data)
+    // TESTAR
+    // await postNotice(data)
     await axios
-      .post('http://5eabf77fa781.ngrok.io/crianoticia', {
+      .post('http://3c182eeb48b3.ngrok.io/crianoticia', {
         login: 'Teste12',
         titulo: data.notice_title,
         imagem: data.img,

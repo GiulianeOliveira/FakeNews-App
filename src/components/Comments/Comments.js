@@ -1,54 +1,84 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 // import { useForm } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 import { Button, TextField, Typography } from '@material-ui/core'
+import axios from 'axios'
 import styled from 'styled-components'
 import Row from '../Row'
 import Column from '../Column'
 import Card from '../Card'
-
-const mocksComments = [
-  { usuario: 'Joana', comentario: 'Blablabla' },
-  { usuario: 'Pedro', comentario: 'Blablabla' },
-  { usuario: 'Renata', comentario: 'Blablabla' }
-]
+import { AuthContext } from '../../AuthProvider'
+// import { postComment } from '../../services'
 
 const Comments = () => {
-  const [allComments, addComment] = useState(mocksComments)
-  const [comment, setComment] = useState({ comentario: '' })
+  const [user] = useContext(AuthContext)
+  const [allComments, addComment] = useState([])
+  const [comment, setComment] = useState()
+  let { id } = useParams()
+  id = id.replace(':', '')
 
-  const handleSubmit = async e => {
-    e.preventDefault()
-    setComment({ comentario: e.target.value })
-    // await axios
-    //   .put('http://2b2326f7730e.ngrok.io/user', {
-    //     nome: completeName,
-    //     login: data.userName ? data.userName : dados.login,
-    //     senha: data.userPassword ? data.userPassword : dados.senha,
-    //     email: data.email ? data.email : dados.email
-    //   })
-    //   .then(res => {
-    //     if (res.status === 200) {
-    //       history.push('/login')
-    //     }
-    //     console.log(res.data)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
+  const getComments = async () => {
+    await axios
+      .get(`http://f1ca5156fd21.ngrok.io/visualizarcomentarios/${id}`)
+      .then(res => {
+        addComment(res.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   useEffect(() => {
-    console.log(allComments)
-  }, [allComments])
+    getComments()
+  }, [])
+
+  const zeroFill = n => `0${n}`.slice(-2)
+
+  const getHour = () => {
+    // Pega o horário atual
+    const now = new Date()
+
+    // Formata a data conforme dd/mm/aaaa hh:ii:ss
+    const dataHora = `${zeroFill(now.getFullYear())}-${zeroFill(now.getMonth() + 1)}-${now.getUTCDate()} ${zeroFill(
+      now.getHours()
+    )}:${zeroFill(now.getMinutes())}:${zeroFill(now.getSeconds())}`
+
+    // Exibe na tela usando a div#data-hora
+    return `${dataHora}`
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setComment(e.target.value)
+  }
+
+  const postComment = async () => {
+    const date = getHour()
+    await axios
+      .post('http://f1ca5156fd21.ngrok.io/comentarnoticia', {
+        noticiaId: id,
+        login: user.login,
+        data: date,
+        conteudo: comment
+      })
+      .then(() => {
+        getComments()
+        setComment('')
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
   return (
     <Card>
-      {allComments.map(({ usuario, comentario }) => (
+      {allComments?.map(({ usuario, comentario, data }) => (
         <CommentColumn mt='10px'>
-          <Row>
+          <Row justifyContent='space-between'>
             <Typography>
               <b>{`${usuario}: `}</b>
             </Typography>
+            <Typography variant='body'>{`${data.split('T')[0]} ${data.split('T')[1].replace('Z', '')}`}</Typography>
           </Row>
           <Row>
             <Typography>{comentario}</Typography>
@@ -64,16 +94,15 @@ const Comments = () => {
           placeholder='Comentar'
           fullWidth
           height='40px'
+          value={comment}
           onChange={e => handleSubmit(e)}
         />
         <Button
           type='submit'
           onClick={e => {
             e.preventDefault()
-            if (comment.comentario !== '') {
-              const formattedComment = { usuario: 'Giuliane', comentario: comment.comentario }
-              const teste = [...allComments, formattedComment]
-              addComment(teste)
+            if (comment !== '') {
+              postComment()
             }
           }}
         >
