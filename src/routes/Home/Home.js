@@ -21,9 +21,8 @@ const Home = () => {
       // getNotices()
       // eslint-disable-next-line consistent-return
       .then(res => {
-        if (res.status === 200) {
-          return setNotices(res.data.reverse())
-        }
+        console.log(res.data)
+        setNotices(res.data.reverse())
       })
       .catch(error => {
         console.log(error)

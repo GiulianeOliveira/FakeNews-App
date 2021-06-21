@@ -49,7 +49,7 @@ const CardSpecialists = ({ dados, setValid }) => {
 
   const onSubmit = async aprove => {
     await axios
-      .put('http://e060003e3f5e.ngrok.io/promote', {
+      .put('http://localhost:3333/promote', {
         login: dados.login,
         status: aprove
       })
@@ -75,7 +75,7 @@ const CardSpecialists = ({ dados, setValid }) => {
             <Typography className={classes.title}>Formação/Profissão:</Typography>
           </Column>
           <Typography className={classes.text}>
-            <a rel='noreferrer' target='_blank' href={`${dados.formacao}`}>
+            <a rel='noreferrer' target='_blank' href={`${dados.certificado}`}>
               {dados.formacao}
             </a>
           </Typography>

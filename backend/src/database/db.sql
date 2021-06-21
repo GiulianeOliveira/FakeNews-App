@@ -48,8 +48,9 @@ CREATE TABLE NOTICIA (
     imagem TEXT,
     descricao TEXT,
     PRIMARY KEY (`noticia_id`),
-    FOREIGN KEY (`login`) REFERENCES `USUARIO`(`login`) ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT fk_id_pai FOREIGN KEY (`login`) REFERENCES `USUARIO`(`login`) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 
 -- criar tabela denunciaNoticia
 CREATE TABLE DENUNCIA_NOTICIA (

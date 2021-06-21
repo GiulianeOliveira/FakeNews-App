@@ -9,6 +9,7 @@ const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap');
   body {
     font-family: 'Montserrat Alternates', sans-serif;
+    background-color: 'white';
   }
 `
 

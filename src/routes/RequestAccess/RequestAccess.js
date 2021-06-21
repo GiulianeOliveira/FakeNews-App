@@ -23,7 +23,8 @@ const RequestAccess = () => {
         certificado: data.certification,
         descricao: data.description
       })
-      .then(() => {
+      .then(res => {
+        console.log(res)
         history.push('/home')
       })
       .catch(error => {

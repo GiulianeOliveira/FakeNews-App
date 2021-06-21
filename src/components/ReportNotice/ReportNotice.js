@@ -53,7 +53,7 @@ const ReportNotice = ({ dados, isUser, setIsDeletedReportedNotice, setIsDeletedR
   const onSubmitUser = async aprove => {
     if (aprove) {
       await axios
-        .delete(`http://a52ccea0b6b1.ngrok.io/delete/${dados.login_denunciado}`)
+        .delete(`http://localhost:3333/delete/${dados.login_denunciado}`)
         .then(() => {
           setIsDeletedReportedUser(true)
         })
@@ -62,7 +62,7 @@ const ReportNotice = ({ dados, isUser, setIsDeletedReportedNotice, setIsDeletedR
         })
     } else {
       await axios
-        .put('http://a52ccea0b6b1.ngrok.io/avaliarUsuarioDenuncia', {
+        .put('http://localhost:3333/avaliarUsuarioDenuncia', {
           login_denunciante: dados.login_denunciante,
           login_denunciado: dados.login_denunciado,
           status: aprove
@@ -79,7 +79,7 @@ const ReportNotice = ({ dados, isUser, setIsDeletedReportedNotice, setIsDeletedR
   const onSubmitNotice = async aprove => {
     if (aprove) {
       await axios
-        .delete(`http://a52ccea0b6b1.ngrok.io/delete?noticia_id=${dados.noticia_id}`)
+        .delete(`http://localhost:3333/delete?noticia_id=${dados.noticia_id}`)
         .then(() => {
           setIsDeletedReportedNotice(true)
         })
@@ -88,7 +88,7 @@ const ReportNotice = ({ dados, isUser, setIsDeletedReportedNotice, setIsDeletedR
         })
     } else {
       await axios
-        .put('http://a52ccea0b6b1.ngrok.io/denuncia/avaliar', {
+        .put('http://localhost:3333/denuncia/avaliar', {
           login: dados.login,
           noticia_id: dados.noticia_id,
           status: aprove

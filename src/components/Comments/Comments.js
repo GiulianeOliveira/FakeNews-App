@@ -19,7 +19,7 @@ const Comments = () => {
 
   const getComments = async () => {
     await axios
-      .get(`http://f1ca5156fd21.ngrok.io/visualizarcomentarios/${id}`)
+      .get(`http://localhost:3333/visualizarcomentarios/${id}`)
       .then(res => {
         addComment(res.data)
       })
@@ -55,7 +55,7 @@ const Comments = () => {
   const postComment = async () => {
     const date = getHour()
     await axios
-      .post('http://f1ca5156fd21.ngrok.io/comentarnoticia', {
+      .post('http://localhost:3333/comentarnoticia', {
         noticiaId: id,
         login: user.login,
         data: date,

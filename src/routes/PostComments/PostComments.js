@@ -24,9 +24,7 @@ const PostComments = () => {
       .get(`http://localhost:3333/visualizarnoticia/${id}`)
       // eslint-disable-next-line consistent-return
       .then(res => {
-        if (res.status === 200) {
-          return setNotice(res.data)
-        }
+        setNotice(res.data)
       })
       .catch(error => {
         console.log(error)

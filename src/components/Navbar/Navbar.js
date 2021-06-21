@@ -10,7 +10,7 @@ import { AuthContext } from '../../AuthProvider'
 
 const getNotice = async setNotices => {
   await axios
-    .get('http://bd94307b6085.ngrok.io/visualizarnoticia')
+    .get('http://localhost:3333/visualizarnoticia')
     // getNotices()
     // eslint-disable-next-line consistent-return
     .then(res => {

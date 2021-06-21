@@ -14,7 +14,7 @@ const EmptyCard = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding: 25px;
+  padding: 30px;
   display: inline;
   flex-direction: row;
   cursor: pointer;

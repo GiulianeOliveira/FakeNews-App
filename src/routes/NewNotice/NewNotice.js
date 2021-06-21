@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import { TextField, Typography, Button } from '@material-ui/core'
@@ -6,15 +6,17 @@ import axios from 'axios'
 import Wrapper from '../../components/Wrapper'
 import Row from '../../components/Row'
 import Navbar from '../../components/Navbar'
+import { AuthContext } from '../../AuthProvider'
 
 const NewNotice = () => {
   const history = useHistory()
+  const [user] = useContext(AuthContext)
   const { register, handleSubmit, setValue } = useForm()
 
   const onSubmit = async data => {
     await axios
       .post('http://localhost:3333/crianoticia', {
-        login: 'Teste12',
+        login: user.login,
         titulo: data.notice_title,
         imagem: data.img,
         descricao: data.description

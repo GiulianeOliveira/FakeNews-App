@@ -14,7 +14,7 @@ const NewsReview = ({ positiva, negativa, noticeId }) => {
 
   const onSubmit = async voto => {
     await axios
-      .put('http://f1ca5156fd21.ngrok.io/avaliar', { login: user.login, noticiaId: noticeId, avaliacao: voto })
+      .put('http://localhost:3333/avaliar', { login: user.login, noticiaId: noticeId, avaliacao: voto })
       .then(() => {
         setVote(true)
       })
@@ -43,8 +43,7 @@ const NewsReview = ({ positiva, negativa, noticeId }) => {
                     <Column mr='10px'>
                       <StyledTypography>{oldVote ? 'Já votou' : 'É fato'}</StyledTypography>
                     </Column>
-                    {isVote ? <StyledTypography>{positiva}%</StyledTypography> : <ThumbUpAltIcon />}
-                    {oldVote && <StyledTypography>{positiva}%</StyledTypography>}
+                    {isVote ? <StyledTypography>{positiva.toFixed(2)}%</StyledTypography> : <ThumbUpAltIcon />}
                   </Row>
                 </button>
               </Column>
@@ -64,8 +63,7 @@ const NewsReview = ({ positiva, negativa, noticeId }) => {
                     <Column mr='10px'>
                       <StyledTypography>{oldVote ? 'Já votou' : 'É fake'}</StyledTypography>
                     </Column>
-                    {isVote ? <StyledTypography>{negativa}%</StyledTypography> : <ThumbDownAltIcon />}
-                    {oldVote && <StyledTypography>{negativa}%</StyledTypography>}
+                    {isVote ? <StyledTypography>{negativa.toFixed(1)}%</StyledTypography> : <ThumbDownAltIcon />}
                   </Row>
                 </button>
               </Column>
@@ -73,13 +71,17 @@ const NewsReview = ({ positiva, negativa, noticeId }) => {
           </Column>
         </Row>
       )}
-      {!user.especialista && (
+      {!user?.especialista && (
         <Column mr='16px'>
           <Row>
-            <StyledTypography>{positiva}% dos especialistas confirmam que esta notícia é fato.</StyledTypography>
+            <StyledTypography>
+              {positiva?.toFixed(1)}% dos especialistas confirmam que esta notícia é fato.
+            </StyledTypography>
           </Row>
           <Row>
-            <StyledTypography>{negativa}% dos especialistas confirmam que esta notícia é fake.</StyledTypography>
+            <StyledTypography>
+              {negativa?.toFixed(1)}% dos especialistas confirmam que esta notícia é fake.
+            </StyledTypography>
           </Row>
         </Column>
       )}

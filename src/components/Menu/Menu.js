@@ -78,7 +78,7 @@ export default function CustomizedMenus({ setUser }) {
           <ListItemIcon>
             <AccountBoxIcon />
           </ListItemIcon>
-          <ListItemText primary='Perfil' />
+          <ListItemText primary='Editar perfil' />
         </StyledMenuItem>
 
         {user.tipo === 'normal' && !user.especialista && (

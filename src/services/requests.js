@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const route = 'http://6f718f25d277.ngrok.io'
+const route = 'http://localhost:3333'
 
 export const login = data => axios.post(`${route}/signin`, { login: data.userName, senha: data.password })
 
