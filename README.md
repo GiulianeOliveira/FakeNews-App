@@ -37,6 +37,14 @@ Abaixo segue o que foi utilizado na criação desta aplicação:
 - [Cors](https://www.npmjs.com/package/cors) - CORS é um pacote node.js para fornecer um middleware Connect / Express que pode ser usado para habilitar CORS com várias opções;
 - [Bcript.js](https://www.npmjs.com/package/bcryptjs) - Bcript.js é um pacote node.js utilizado para fazer criptografias;
 
+### Front-end
+
+- [React.js](https://pt-br.reactjs.org/) - Uma biblioteca JavaScript para criar interfaces de usuário;
+- [Yarn](https://yarnpkg.com/) - O Yarn é um gerenciador de pacotes que trouxe mais funcionalidades e vantagens para programadores. Com uma estrutura já conhecida e utilizada por ferramentas renomadas, como o NPM, essa aplicação tem se destacado por sua simplicidade e segurança;
+- [Router dom](https://reactrouter.com/web/guides/quick-start) -  lib completa para controle de rotas que permite que você consiga configurar as rotas utilizando o formato JSX e também disponibiliza uma API para você configurar diretamente via Javascript;
+- [Styled Components](https://styled-components.com/) - A biblioteca Styled Components permite que você escreva CSS simples para seus componentes sem se preocupar com colisões dos nomes de classes. Ajuda a escrever CSS com escopo definido para um único componente e não se aplica em nenhum outro elemento da página.;
+- [React Hook Form](https://react-hook-form.com/) - A biblioteca traz a proposta de criar formulários flexíveis, com formas simples de fazer validação e sem renderizações desnecessárias.;
+
 <!-- GETTING STARTED -->
 
 # Começando
@@ -121,4 +129,20 @@ npm run init-sql
 
 ```sh
 npm run delete-sql
+```
+
+### Front-end
+
+No diretório `fakenews-app/`
+
+1. Instalar as dependências:
+
+```sh
+npm install
+```
+
+2. Iniciar o software em **localhost**:
+
+```sh
+npm start
 ```
