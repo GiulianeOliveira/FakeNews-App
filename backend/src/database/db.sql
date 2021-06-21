@@ -54,13 +54,13 @@ CREATE TABLE NOTICIA (
 
 -- criar tabela denunciaNoticia
 CREATE TABLE DENUNCIA_NOTICIA (
-    login VARCHAR(50) BINARY NOT NULL,
+    login_denuncia VARCHAR(50) BINARY NOT NULL,
     noticia_id INT NOT NULL,
     data_denuncia DATE NOT NULL,
     status_denuncia ENUM('em_espera', 'aprovado', 'reprovado') DEFAULT "em_espera",
     conteudo TEXT NOT NULL,
-    PRIMARY KEY (`login`,`noticia_id`),
-    FOREIGN KEY (`login`) REFERENCES `USUARIO`(`login`) ON UPDATE CASCADE ON DELETE CASCADE,
+    PRIMARY KEY (`login_denuncia`,`noticia_id`),
+    FOREIGN KEY (`login_denuncia`) REFERENCES `USUARIO`(`login`) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (`noticia_id`) REFERENCES `NOTICIA` (`noticia_id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
 

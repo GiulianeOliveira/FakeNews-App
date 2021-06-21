@@ -119,7 +119,7 @@ module.exports = class Noticia {
 
 
     static listarsNoticiaDenuncia(callback){
-        sql.query("SELECT * FROM DENUNCIA_NOTICIA INNER JOIN NOTICIA ON DENUNCIA_NOTICIA.noticia_id=NOTICIA.noticia_id WHERE status_denuncia = 'em_espera'", 
+        sql.query("SELECT * FROM DENUNCIA_NOTICIA LEFT JOIN NOTICIA ON DENUNCIA_NOTICIA.noticia_id=NOTICIA.noticia_id WHERE status_denuncia = 'em_espera'", 
         (err, res) => {
             if(err){
                 callback(
@@ -132,6 +132,7 @@ module.exports = class Noticia {
                 let obj = res.map(denuncia => {
                     return (
                         {
+                            login_denuncia: denuncia.login_denuncia,
                             login: denuncia.login,
                             noticia_id: denuncia.noticia_id,
                             titulo: denuncia.titulo,
@@ -231,7 +232,7 @@ module.exports = class Noticia {
     }
 
     static denunciarNoticia(login, noticiaID, data, conteudo, callback) {
-        sql.query(`INSERT INTO DENUNCIA_NOTICIA (login, noticia_id, data_denuncia, status_denuncia, conteudo) VALUES (?,?,?,?,?)`,
+        sql.query(`INSERT INTO DENUNCIA_NOTICIA (login_denuncia, noticia_id, data_denuncia, status_denuncia, conteudo) VALUES (?,?,?,?,?)`,
             [login, noticiaID, data, "em_espera", conteudo],
             (err, res) => {
                 if (err) {
@@ -330,7 +331,7 @@ static visualiarComentarios(noticiaId, callback) {
 
 static avaliarDenuncia(noticia_id, login, status, callback) {
     if(status){
-        sql.query(`UPDATE DENUNCIA_NOTICIA SET status_denuncia = 'aprovado' WHERE noticia_id = '${noticia_id}' AND login LIKE BINARY '${login}'`,
+        sql.query(`UPDATE DENUNCIA_NOTICIA SET status_denuncia = 'aprovado' WHERE noticia_id = '${noticia_id}' AND login_denuncia LIKE BINARY '${login}'`,
         (err, res) => {
             if (err) {
                 callback(
@@ -362,7 +363,7 @@ static avaliarDenuncia(noticia_id, login, status, callback) {
         });
     }
     else {
-        sql.query(`UPDATE DENUNCIA_NOTICIA SET status_denuncia = 'reprovado' WHERE noticia_id = '${noticia_id}' AND login LIKE BINARY '${login}'`,
+        sql.query(`UPDATE DENUNCIA_NOTICIA SET status_denuncia = 'reprovado' WHERE noticia_id = '${noticia_id}' AND login_denuncia LIKE BINARY '${login}'`,
         (err, res) => {
             if (err) {
                 callback(

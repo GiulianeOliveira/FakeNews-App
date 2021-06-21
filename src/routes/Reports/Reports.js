@@ -38,6 +38,7 @@ const Reports = () => {
         })
     } else {
       // REPORT NOTÍCIA
+      console.log(user.login, 'REPORT NOTICIA')
       await axios
         .post(`http://localhost:3333/denuncia?login=${user.login}&noticia_id=${id.replace(':', '')}`, {
           conteudo: data.reason,

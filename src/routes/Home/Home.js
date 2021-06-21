@@ -47,8 +47,8 @@ const Home = () => {
             title={noticia.titulo}
             description={noticia.descricao}
             image={noticia.imagem}
-            positiva={noticia.percentofN}
-            negativa={noticia.percetOfP}
+            positiva={noticia.percetOfP}
+            negativa={noticia.percentofN}
             noticeId={noticia.noticia_id}
           />
         ))}

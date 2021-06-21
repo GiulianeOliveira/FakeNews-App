@@ -97,20 +97,20 @@ INSERT INTO COMENTARIO (sequencia, noticia_id, login, data, conteudo) VALUES
 
 
 -- Inserir denuncia usuário
-INSERT INTO DENUNCIA_USUARIO (login_denunciante, login_denunciado, data, status, conteudo) VALUES
+/* INSERT INTO DENUNCIA_USUARIO (login_denunciante, login_denunciado, data, status, conteudo) VALUES
 ('User11','User12', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário'),
 ('User11','User13', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário'),
 ('User12','User15', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário'),
 ('User13','User14', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário'),
-('User15','User18', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário');
+('User15','User18', '2021-06-15', 'em_espera', 'Conteúdo da denúncia do usuário'); */
 
 -- Inserir denuncia notícia
-INSERT INTO DENUNCIA_NOTICIA (login, noticia_id, data_denuncia, status_denuncia, conteudo) VALUES
+/* INSERT INTO DENUNCIA_NOTICIA (login, noticia_id, data_denuncia, status_denuncia, conteudo) VALUES
 ('User11',1 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia'),
 ('User11',3 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia'),
 ('User12',1 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia'),
 ('User13',7 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia'),
-('User12',6 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia');
+('User12',6 , '2021-06-15', 'em_espera', 'Conteúdo da denúncia da notícia'); */
 
 
 -- Inserir arequisição especialista

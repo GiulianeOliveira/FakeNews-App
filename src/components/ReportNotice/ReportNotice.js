@@ -89,7 +89,7 @@ const ReportNotice = ({ dados, isUser, setIsDeletedReportedNotice, setIsDeletedR
     } else {
       await axios
         .put('http://localhost:3333/denuncia/avaliar', {
-          login: dados.login,
+          login: dados.login_denuncia,
           noticia_id: dados.noticia_id,
           status: aprove
         })
@@ -132,7 +132,7 @@ const ReportNotice = ({ dados, isUser, setIsDeletedReportedNotice, setIsDeletedR
           <Column mr='5px' mt='5px'>
             <Typography className={classes.title}>Denunciante:</Typography>
           </Column>
-          <Typography className={classes.text}>{isUser ? dados?.login_denunciante : dados?.login}</Typography>
+          <Typography className={classes.text}>{isUser ? dados?.login_denunciante : dados?.login_denuncia}</Typography>
         </Row>
       </CardContent>
       <Row className={classes.content}>

@@ -19,6 +19,7 @@ const Admin = () => {
     await axios
       .get('http://localhost:3333/noticiadenuncia')
       .then(res => {
+        console.log(res.data, 'USUARIO RETORNADO')
         setNoticesReported(res.data)
         setIsDeletedReportedNotice(false)
       })
